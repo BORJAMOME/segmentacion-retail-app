@@ -2,9 +2,9 @@
 
 **¿Trata tu negocio a todos los clientes como si fueran el mismo, aunque no compren igual?**
 
-Una aplicación interactiva que cuenta, paso a paso, cómo se descubrieron 4 grupos reales de
-clientes en una cadena de electrónica de consumo usando solo su comportamiento de compra —
-y cuánto se parecen a los que el negocio ya intuía, sin haberlos visto nunca durante el entrenamiento.
+Una aplicación interactiva que cuenta, paso a paso, cómo descubrí 4 grupos reales de clientes
+en una cadena de electrónica de consumo usando solo su comportamiento de compra, y cuánto se
+parecen a los que el negocio ya intuía, sin haberlos visto nunca durante el entrenamiento.
 
 No hace falta saber nada de Machine Learning para seguirla: empieza por el problema, sigue por
 los datos, y termina dejándote construir un cliente hipotético para ver en qué segmento caería.
@@ -16,8 +16,8 @@ los datos, y termina dejándote construir un cliente hipotético para ver en qu�
 ## De qué trata, en dos frases
 
 Una cadena de electrónica trata a todos sus clientes igual: las mismas ofertas, el mismo
-descuento genérico. Con **K-Means** y **t-SNE** se agrupó a 6.457 clientes reales en 4 segmentos
-usando solo 9 variables de comportamiento (gasto, frecuencia, canal, recencia) — sin usar la
+descuento genérico. Con **K-Means** y **t-SNE** agrupé a 6.457 clientes reales en 4 segmentos
+usando solo 9 variables de comportamiento (gasto, frecuencia, canal, recencia), sin usar la
 etiqueta de perfil que el negocio ya tenía asignada.
 
 **El resultado:** el modelo recupera, sin haberla visto nunca, el 96,8% del segmento premium
@@ -41,8 +41,8 @@ Python + [Streamlit](https://streamlit.io) para la aplicación, y
 completo, en formato notebook, está en el
 [repositorio de portfolio](https://github.com/BORJAMOME/Data-Analytics-Portfolio/tree/main/03-Machine-Learning/02-no-supervisado/clustering/kmeans/04-segmentacion-retail-tsne).
 
-Todos los números que aparecen en la app se calculan una vez en `model/train.py` y se guardan
-como datos — nada está escrito a mano.
+Calculé todos los números que aparecen en la app una vez en `model/train.py` y los guardé como
+datos: nada está escrito a mano.
 
 ## Ejecutarla en tu ordenador
 
@@ -78,10 +78,10 @@ data/                      el dataset original
 assets/style.css           el sistema visual de la app
 ```
 
-El Playground predice el cluster de un cliente hipotético sin cargar un modelo de sklearn: solo
-necesita los parámetros del `StandardScaler` y los 4 centroides ya ajustados (guardados como
-JSON) para escalar la entrada y buscar el centroide más cercano — exactamente lo que hace
-`KMeans.predict()` por dentro, sin la sobrecarga de deserializar un pickle.
+Hice que el Playground predijera el cluster de un cliente hipotético sin cargar un modelo de
+sklearn: solo necesita los parámetros del `StandardScaler` y los 4 centroides ya ajustados
+(guardados como JSON) para escalar la entrada y buscar el centroide más cercano, exactamente lo
+que hace `KMeans.predict()` por dentro, sin la sobrecarga de deserializar un pickle.
 </details>
 
 ---
