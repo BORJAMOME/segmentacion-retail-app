@@ -67,7 +67,7 @@ st.markdown(
     f"""
     <div id="top" class="hero-wrap">
       <p class="hero-kicker">Machine Learning Case Study · Clustering</p>
-      <h1 class="hero-title">¿Puede un algoritmo encontrar a tus mejores clientes <em>sin que nadie le diga quiénes son</em>?</h1>
+      <h1 class="hero-title">Tu equipo de marketing ya sabe quiénes son tus mejores clientes. ¿Puede un algoritmo llegar a la misma conclusión <em>sin que nadie se lo diga</em>?</h1>
       <p class="hero-sub">Un modelo de segmentación no supervisada agrupó a {n_fmt} clientes de una cadena
       de electrónica de consumo usando solo su comportamiento de compra — sin ver nunca la etiqueta de
       perfil que el negocio ya les tenía asignada. El resultado: casi recupera él solo al mismo cliente
