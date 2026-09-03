@@ -11,7 +11,7 @@ los datos, y termina dejándote construir un cliente hipotético para ver en qu�
 
 ## Ver la app
 
-🔗 **[Abrir la app](https://segmentacion-retail-app.streamlit.app)** _(actualizar con la URL real tras el deploy en Streamlit Cloud)_
+🔗 **[Abrir la app](https://segmentacion-retail.streamlit.app)**
 
 ## De qué trata, en dos frases
 
