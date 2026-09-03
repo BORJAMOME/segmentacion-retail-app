@@ -1,0 +1,63 @@
+{
+  "n_customers": 6457,
+  "n_columns_original": 26,
+  "n_features_used": 9,
+  "silhouette_final": 0.3169367375141947,
+  "n_clusters": 4,
+  "feature_ranges": {
+    "Age": {
+      "min": 18.0,
+      "max": 75.0,
+      "mean": 38.82267306798823,
+      "median": 39.0
+    },
+    "Annual_Income": {
+      "min": 18000.0,
+      "max": 114606.0,
+      "mean": 44413.34226420939,
+      "median": 39931.0
+    },
+    "Total_Purchases": {
+      "min": 1.0,
+      "max": 42.0,
+      "mean": 17.17686231996283,
+      "median": 17.0
+    },
+    "Average_Ticket": {
+      "min": 30.0,
+      "max": 827.69,
+      "mean": 266.84479479634507,
+      "median": 208.18
+    },
+    "Total_Spending": {
+      "min": 50.0,
+      "max": 27284.55,
+      "mean": 5106.93626761654,
+      "median": 3433.1
+    },
+    "Loyalty_Points": {
+      "min": 0.0,
+      "max": 69617.0,
+      "mean": 13209.366888647979,
+      "median": 9099.0
+    },
+    "Website_Visits": {
+      "min": 5.0,
+      "max": 296.0,
+      "mean": 120.12157348613907,
+      "median": 122.0
+    },
+    "Days_Since_Last_Purchase": {
+      "min": 1.0,
+      "max": 466.0,
+      "mean": 193.5931547158123,
+      "median": 191.0
+    },
+    "Online_Purchases": {
+      "min": 0.0,
+      "max": 31.0,
+      "mean": 11.989623664240359,
+      "median": 12.0
+    }
+  }
+}
