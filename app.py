@@ -68,10 +68,10 @@ st.markdown(
     <div id="top" class="hero-wrap">
       <p class="hero-kicker">Machine Learning Case Study · Clustering</p>
       <h1 class="hero-title">Tu equipo de marketing ya sabe quiénes son tus mejores clientes. ¿Puede un algoritmo llegar a la misma conclusión <em>sin que nadie se lo diga</em>?</h1>
-      <p class="hero-sub">Un modelo de segmentación no supervisada agrupó a {n_fmt} clientes de una cadena
-      de electrónica de consumo usando solo su comportamiento de compra — sin ver nunca la etiqueta de
-      perfil que el negocio ya les tenía asignada. El resultado: casi recupera él solo al mismo cliente
-      premium que marketing ya conocía.</p>
+      <p class="hero-sub">Agrupé a {n_fmt} clientes de una cadena de electrónica de consumo usando solo su
+      comportamiento de compra, sin que el modelo viera nunca la etiqueta de perfil que el negocio ya les
+      tenía asignada. El resultado: casi recuperó por sí solo al mismo cliente premium que marketing ya
+      conocía.</p>
       <div class="hero-meta">
         <span class="hero-pill">Borja Mora Méndez</span>
         <span class="hero-pill">Python · scikit-learn (K-Means + t-SNE)</span>
@@ -106,8 +106,8 @@ ui.question_block(
     "La pregunta de negocio",
     '¿Existen grupos naturales de clientes según su comportamiento de compra, '
     '<span class="accent">y se pueden explicar de un vistazo</span>?',
-    "No se trata de inventar categorías de marketing sobre el papel: se trata de dejar que el propio "
-    "comportamiento de compra — gasto, frecuencia, canal, antigüedad — revele si esos grupos ya existen.",
+    "No quise inventar categorías de marketing sobre el papel: dejé que el propio comportamiento de "
+    "compra (gasto, frecuencia, canal, antigüedad) revelara si esos grupos ya existían.",
 )
 ui.section_close()
 
@@ -116,10 +116,10 @@ ui.section_open("datos")
 ui.eyebrow("Materia prima")
 ui.h2("Los datos")
 ui.lead(
-    f"{n_fmt} clientes reales, {stats['n_columns_original']} variables por cliente: demografía, gasto, "
-    "canal, categorías de producto e interacción con marketing. Para no arrastrar ruido al modelo, se usan solo "
-    "9 variables de comportamiento y valor — el mismo criterio RFM (Recencia, Frecuencia, valor Monetario) "
-    "ampliado con canal digital."
+    f"Trabajé con {n_fmt} clientes reales y {stats['n_columns_original']} variables por cliente: demografía, "
+    "gasto, canal, categorías de producto e interacción con marketing. Para no arrastrar ruido al modelo, usé "
+    "solo 9 variables de comportamiento y valor: el mismo criterio RFM (Recencia, Frecuencia, valor "
+    "Monetario) ampliado con canal digital."
 )
 ui.kpi_grid([
     {"num": n_fmt, "label": "clientes"},
@@ -149,18 +149,18 @@ for c, (group_name, feats) in zip(cols, feature_groups):
         )
 st.write("")
 ui.finding(
-    "El dataset trae un campo <b>Customer_Profile</b> (1 a 5) ya asignado por el negocio. No se le da al "
-    "modelo — se reserva aparte y se usa solo al final, como control externo, para comprobar si K-Means "
-    "llega a conclusiones parecidas sin haberlo visto nunca."
+    "El dataset trae un campo <b>Customer_Profile</b> (1 a 5) ya asignado por el negocio. No se lo di al "
+    "modelo: lo reservé aparte y lo usé solo al final, como control externo, para comprobar si K-Means "
+    "llegaba a conclusiones parecidas sin haberlo visto nunca."
 )
 ui.section_close()
 
 # ============================================================ EXPLORACIÓN ==
 ui.section_open("exploracion")
 ui.eyebrow("Antes de modelar")
-ui.h2("¿Qué nos dicen los datos?")
-ui.lead("Dos preguntas antes de tocar ningún algoritmo: ¿cómo se distribuye el gasto?, "
-        "¿hay variables que en el fondo miden lo mismo?")
+ui.h2("¿Qué me dicen los datos?")
+ui.lead("Antes de tocar ningún algoritmo, me hice dos preguntas: ¿cómo se distribuye el gasto? "
+        "¿Hay variables que en el fondo miden lo mismo?")
 
 ui.h3("Distribución del gasto total")
 st.plotly_chart(charts.histogram(features_raw["Total_Spending"], "Gasto total (€)"),
@@ -193,25 +193,25 @@ ui.lead(
     "ninguna estructura real. Este es el camino para no caer en ella."
 )
 ui.story_steps([
-    ("Escalamos los datos",
+    ("Escalé los datos",
      "K-Means mide distancias. Sin estandarizar, el ingreso anual (rango 18.000–114.000) aplastaría a "
      "variables como la edad, que aporta información real en una escala mucho más pequeña."),
-    ("Comprobamos que había estructura real",
-     "Antes de forzar ningún número de grupos, proyectamos las 9 variables en 2D con t-SNE. Si no hay "
-     "regiones separables en ese mapa, no tiene sentido segmentar — solo estaríamos troceando ruido."),
-    ("Probamos varios números de grupos",
-     "Con el método del codo y el silhouette score comparamos k=2 a k=8. El mejor silhouette aislado no "
-     "siempre es el más útil para el negocio — hubo que decidir, no solo leer un gráfico."),
-    ("Entrenamos K-Means y contrastamos con la realidad",
-     "Con k=4 ya elegido, entrenamos el modelo final y lo comparamos contra el perfil que el negocio ya "
-     "tenía asignado — sin haberlo visto nunca durante el entrenamiento."),
+    ("Comprobé que había estructura real",
+     "Antes de forzar ningún número de grupos, proyecté las 9 variables en 2D con t-SNE. Si no había "
+     "regiones separables en ese mapa, no tenía sentido segmentar: solo estaría troceando ruido."),
+    ("Probé varios números de grupos",
+     "Con el método del codo y el silhouette score, comparé k=2 a k=8. El mejor silhouette aislado no "
+     "siempre es el más útil para el negocio: tuve que decidir, no solo leer un gráfico."),
+    ("Entrené K-Means y contrasté con la realidad",
+     "Con k=4 ya elegido, entrené el modelo final y lo comparé contra el perfil que el negocio ya "
+     "tenía asignado, sin haberlo visto nunca durante el entrenamiento."),
 ])
 
 with st.expander("Para quien quiera el detalle técnico — t-SNE, perplexity, y por qué k=4"):
     st.markdown(
         "**t-SNE** (*t-distributed Stochastic Neighbor Embedding*) proyecta las 9 variables en 2D "
         "conservando las distancias *locales* entre puntos cercanos, no la varianza global (a diferencia de "
-        "PCA) — suele producir mapas más legibles para detectar agrupaciones. Se usó `perplexity=35` "
+        "PCA): suele producir mapas más legibles para detectar agrupaciones. Usé `perplexity=35` "
         "(dentro del rango recomendado 5–50, escalado a los ~6.500 clientes) e `init=\"pca\"`, que estabiliza "
         "el resultado frente a una inicialización aleatoria.\n\n"
         f"El silhouette más alto se da en k=2 ({elbow_df.loc[elbow_df['k']==2,'silhouette'].values[0]:.2f}), "
@@ -219,7 +219,7 @@ with st.expander("Para quien quiera el detalle técnico — t-SNE, perplexity, y
         f"\"gasta mucho\". A partir de k=3 el silhouette se estabiliza "
         f"(k=3: {elbow_df.loc[elbow_df['k']==3,'silhouette'].values[0]:.3f}, "
         f"k=4: {elbow_df.loc[elbow_df['k']==4,'silhouette'].values[0]:.3f}, prácticamente empatados) y baja "
-        "progresivamente después. Se eligió k=4 porque, sin perder apenas calidad de separación frente a "
+        "progresivamente después. Elegí k=4 porque, sin perder apenas calidad de separación frente a "
         "k=3, da al equipo de marketing cuatro perfiles accionables en vez de tres."
     )
 
@@ -235,8 +235,8 @@ st.plotly_chart(
 )
 ui.finding(
     "Al colorear por el perfil que ya venía en los datos (sin usarlo para entrenar nada), se ven zonas del "
-    "mapa claramente dominadas por un único color. Es la señal que buscábamos: hay grupos reales que "
-    "descubrir, no solo ruido — el paso siguiente (K-Means) tiene sentido."
+    "mapa claramente dominadas por un único color. Es la señal que buscaba: hay grupos reales que "
+    "descubrir, no solo ruido. El paso siguiente (K-Means) tenía sentido."
 )
 
 ui.h3("¿Qué representa cada eje del mapa?")
@@ -261,7 +261,7 @@ st.plotly_chart(charts.elbow_silhouette(elbow_df, stats["n_clusters"]), use_cont
                  config={"displayModeBar": False})
 ui.finding(
     f"El silhouette score más alto se da en k=2, pero es demasiado grueso para el negocio. Con k=3 y k=4 "
-    "prácticamente empatados, se eligió <b>k=4</b>: misma calidad de separación, un perfil accionable más."
+    "prácticamente empatados, elegí <b>k=4</b>: misma calidad de separación, un perfil accionable más."
 )
 ui.section_close()
 
@@ -270,9 +270,9 @@ ui.section_open("modelo")
 ui.eyebrow("¿Cómo intenta resolverlo?")
 ui.h2("K-Means (k=4)")
 ui.lead(
-    f"Con la estructura confirmada y k=4 decidido, el modelo final agrupa a los {n_fmt} clientes en "
-    "4 segmentos según sus 9 variables de comportamiento — sin ver nunca el perfil que el negocio ya tenía "
-    "asignado."
+    f"Con la estructura confirmada y k=4 decidido, entrené el modelo final para agrupar a los {n_fmt} "
+    "clientes en 4 segmentos según sus 9 variables de comportamiento, sin que viera nunca el perfil que "
+    "el negocio ya tenía asignado."
 )
 m1, m2 = st.columns(2)
 with m1:
@@ -302,9 +302,9 @@ st.plotly_chart(
 ui.finding(
     "Los cuatro clusters ocupan regiones bien diferenciadas del mapa, coherentes con los ejes ya "
     "interpretados: el premium se concentra en la zona de mayor valor económico, y los otros dos se separan "
-    "sobre todo en el eje digital/recencia. Que K-Means y t-SNE — dos algoritmos con lógicas distintas — "
-    "lleguen a fronteras parecidas confirma que la segmentación responde a una estructura real, no es un "
-    "artefacto del método."
+    "sobre todo en el eje digital/recencia. Que K-Means y t-SNE, dos algoritmos con lógicas distintas, "
+    "lleguen a fronteras parecidas me confirma que la segmentación responde a una estructura real, no es "
+    "un artefacto del método."
 )
 ui.section_close()
 
@@ -312,7 +312,7 @@ ui.section_close()
 ui.section_open("explicabilidad")
 ui.eyebrow("¿Por qué estos 4 grupos?")
 ui.h2("Los 4 perfiles")
-ui.lead("Cada cluster tiene un comportamiento de compra distinto y reconocible — así es como lo vería "
+ui.lead("Cada cluster tiene un comportamiento de compra distinto y reconocible: así es como lo vería "
         "un responsable de marketing, en lenguaje llano, no en coordenadas.")
 
 CLUSTER_TEXT = {
@@ -347,7 +347,7 @@ ui.h3("Comparación directa: gasto total por cluster")
 st.plotly_chart(charts.cluster_profile_bars(profile_df, "Total_Spending", CLUSTER_NAMES, FEATURE_LABELS),
                  use_container_width=True, config={"displayModeBar": False})
 ui.finding(
-    f"El cluster premium gasta de media {eur(profile_df.loc[2,'Total_Spending'])} — "
+    f"El cluster premium gasta de media {eur(profile_df.loc[2,'Total_Spending'])}, "
     f"{profile_df.loc[2,'Total_Spending']/profile_df.loc[0,'Total_Spending']:.1f} veces más que el cluster "
     "en riesgo. No es un matiz: son negocios distintos dentro del mismo negocio."
 )
@@ -363,7 +363,7 @@ ui.eyebrow("Pruébalo tú mismo")
 ui.h2("Playground — ¿en qué segmento caería este cliente?")
 ui.lead(
     "Ajusta el comportamiento de un cliente hipotético y el modelo predice, en vivo, a qué cluster "
-    "pertenecería — usando el mismo cálculo que K-Means: escalar y buscar el centroide más cercano."
+    "pertenecería, usando el mismo cálculo que K-Means: escalar y buscar el centroide más cercano."
 )
 
 pg_left, pg_right = st.columns([1, 1.2], gap="large")
@@ -414,7 +414,7 @@ runner_up_id, runner_up_dist = sorted_dists[1]
 ui.finding(
     f"De los 4 centroides, el más cercano en el espacio escalado es el del <b>Cluster {cluster_id} "
     f"({CLUSTER_NAMES[cluster_id]})</b>. El segundo más próximo es el Cluster {runner_up_id} "
-    f"({CLUSTER_NAMES[runner_up_id]}) — cuanto más parecidas sean las dos distancias, más "
+    f"({CLUSTER_NAMES[runner_up_id]}). Cuanto más parecidas sean las dos distancias, más "
     "\"fronterizo\" es este cliente entre ambos perfiles, igual que ocurre con clientes reales."
 )
 ui.section_close()
@@ -425,8 +425,8 @@ ui.eyebrow("¿Funciona de verdad?")
 ui.h2("Resultados")
 ui.h3("¿Coincide con el perfil que el negocio ya tenía?")
 ui.body(
-    "El dataset traía un campo <b>Customer_Profile</b> (1 a 5) que nunca se usó para entrenar. Se compara "
-    "ahora, solo como control, si los 4 clusters de K-Means reconstruyen esa segmentación original."
+    "El dataset traía un campo <b>Customer_Profile</b> (1 a 5) que nunca usé para entrenar. Lo comparo "
+    "ahora, solo como control, para ver si los 4 clusters de K-Means reconstruyen esa segmentación original."
 )
 st.plotly_chart(charts.crosstab_heatmap(crosstab_df, CLUSTER_NAMES), use_container_width=True,
                  config={"displayModeBar": False})
@@ -441,9 +441,9 @@ ui.finding(
 )
 ui.finding(
     "El cluster 1, en cambio, no distingue entre los perfiles 1 y 5 originales: los reparte casi al 50%. "
-    "Esto no es un fallo del modelo — es una señal honesta de que la diferencia entre esos dos perfiles no "
+    "Esto no es un fallo del modelo, es una señal honesta de que la diferencia entre esos dos perfiles no "
     "está en las 9 variables de comportamiento usadas, sino probablemente en otras (categoría de producto, "
-    "satisfacción, devoluciones) que se dejaron fuera a propósito."
+    "satisfacción, devoluciones) que dejé fuera a propósito."
 )
 ui.section_close()
 
@@ -488,7 +488,7 @@ ui.section_close()
 
 # ============================================================ DECISIONES ==
 ui.section_open("decisiones")
-ui.eyebrow("¿Qué haríamos con esto?")
+ui.eyebrow("¿Qué haría con esto?")
 ui.h2("Decisiones que habilita")
 ui.decision_flow(
     f"Cluster 0 ({cluster0_n_fmt} clientes) lleva {cluster0_recency:.0f} días sin comprar de media",
@@ -544,8 +544,8 @@ with lc2:
 st.markdown(
     '<div class="limit-note"><p class="co-body">'
     "La segmentación por comportamiento (RFM + canal) explica bien el extremo de mayor valor, pero no "
-    "separa todos los perfiles que el negocio distingue internamente — probablemente los perfiles 1 y 5 se "
-    "diferencian por variables (producto, satisfacción, devoluciones) que quedaron fuera de este análisis "
+    "separa todos los perfiles que el negocio distingue internamente: probablemente los perfiles 1 y 5 se "
+    "diferencian por variables (producto, satisfacción, devoluciones) que dejé fuera de este análisis "
     "a propósito, no por una limitación de K-Means."
     "</p></div>",
     unsafe_allow_html=True,
@@ -559,7 +559,7 @@ ui.h2("Conclusión")
 ui.lead(
     f"Con solo 9 variables de comportamiento, K-Means separa a los clientes en 4 grupos accionables y "
     f"recupera de forma casi exacta ({premium_pct:.1f}%) el segmento premium que el negocio ya tenía "
-    "identificado — sin haber visto esa etiqueta durante el entrenamiento. El modelo no sustituye el "
+    "identificado, sin haber visto esa etiqueta durante el entrenamiento. El modelo no sustituye el "
     "criterio de marketing: le da un punto de partida basado en comportamiento real, no en intuición."
 )
 ui.section_close()
