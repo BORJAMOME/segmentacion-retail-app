@@ -42,7 +42,7 @@ def histogram(series: pd.Series, title_x: str) -> go.Figure:
     fig = go.Figure(go.Histogram(x=series, marker_color=NAVY2, opacity=0.85, nbinsx=30))
     fig.update_xaxes(title_text=title_x)
     fig.update_yaxes(title_text="Clientes")
-    return _base_layout(fig, height=300, legend=False)
+    return _base_layout(fig, height=440, legend=False)
 
 
 def correlation_heatmap(corr: pd.DataFrame, labels: dict) -> go.Figure:
@@ -55,7 +55,7 @@ def correlation_heatmap(corr: pd.DataFrame, labels: dict) -> go.Figure:
         text=np.round(z, 2), texttemplate="%{text}", textfont=dict(size=10),
         colorbar=dict(thickness=12, outlinewidth=0),
     ))
-    fig.update_layout(height=440, margin=dict(l=10, r=10, t=10, b=10),
+    fig.update_layout(height=540, margin=dict(l=10, r=10, t=10, b=10),
                        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
                        font=dict(family=FONT, color=INK, size=11))
     fig.update_xaxes(tickangle=-35)
@@ -74,7 +74,7 @@ def tsne_scatter(df: pd.DataFrame, color_col: str, color_map: dict, label_map: d
         ))
     fig.update_xaxes(title_text="tSNE_1 · valor económico")
     fig.update_yaxes(title_text="tSNE_2 · digital / recencia")
-    return _base_layout(fig, height=460)
+    return _base_layout(fig, height=560)
 
 
 def elbow_silhouette(df: pd.DataFrame, chosen_k: int) -> go.Figure:
@@ -88,7 +88,7 @@ def elbow_silhouette(df: pd.DataFrame, chosen_k: int) -> go.Figure:
     fig.add_vline(x=chosen_k, line_dash="dot", line_color=INK,
                   annotation_text=f"k elegido = {chosen_k}", annotation_font_color=INK)
     fig.update_layout(
-        height=380, margin=dict(l=10, r=10, t=10, b=10),
+        height=480, margin=dict(l=10, r=10, t=10, b=10),
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
         font=dict(family=FONT, color=INK, size=12.5),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0, bgcolor="rgba(0,0,0,0)"),
@@ -108,7 +108,7 @@ def cluster_sizes(sizes_df: pd.DataFrame, names: dict) -> go.Figure:
         textposition="outside",
     ))
     fig.update_xaxes(title_text="Clientes")
-    return _base_layout(fig, height=260, legend=False)
+    return _base_layout(fig, height=340, legend=False)
 
 
 def cluster_profile_bars(profile: pd.DataFrame, feature: str, names: dict, labels: dict) -> go.Figure:
@@ -120,7 +120,7 @@ def cluster_profile_bars(profile: pd.DataFrame, feature: str, names: dict, label
     fig = go.Figure(go.Bar(x=labs, y=values, marker_color=colors,
                             text=[f"{v:,.0f}".replace(",", ".") for v in values], textposition="outside"))
     fig.update_yaxes(title_text=labels.get(feature, feature))
-    return _base_layout(fig, height=300, legend=False)
+    return _base_layout(fig, height=420, legend=False)
 
 
 def crosstab_heatmap(ct: pd.DataFrame, names: dict) -> go.Figure:
@@ -132,7 +132,7 @@ def crosstab_heatmap(ct: pd.DataFrame, names: dict) -> go.Figure:
         text=ct.values, texttemplate="%{text}", textfont=dict(size=11),
         colorbar=dict(thickness=12, outlinewidth=0, title="clientes"),
     ))
-    fig.update_layout(height=340, margin=dict(l=10, r=10, t=10, b=10),
+    fig.update_layout(height=460, margin=dict(l=10, r=10, t=10, b=10),
                        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
                        font=dict(family=FONT, color=INK, size=11))
     return fig
@@ -153,7 +153,7 @@ def playground_radar(user_scaled: dict, centroid_scaled: dict, features: list, l
                                    line=dict(color=SUPPORT, width=2.4), fill="toself",
                                    fillcolor="rgba(184,120,60,0.14)"))
     fig.update_layout(
-        height=420, margin=dict(l=40, r=40, t=30, b=10),
+        height=520, margin=dict(l=40, r=40, t=30, b=10),
         paper_bgcolor="rgba(0,0,0,0)",
         font=dict(family=FONT, color=INK, size=11),
         legend=dict(orientation="h", yanchor="bottom", y=1.05, xanchor="left", x=0, bgcolor="rgba(0,0,0,0)"),

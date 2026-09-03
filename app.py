@@ -67,10 +67,11 @@ st.markdown(
     f"""
     <div id="top" class="hero-wrap">
       <p class="hero-kicker">Machine Learning Case Study · Clustering</p>
-      <h1 class="hero-title">¿Trata tu negocio a todos los clientes <em>como si fueran el mismo</em>, aunque no compren igual?</h1>
-      <p class="hero-sub">Un modelo de segmentación no supervisada aplicado a {n_fmt} clientes de una cadena
-      de electrónica de consumo, para descubrir si existen grupos reales de comportamiento — y cuánto se parecen a
-      los que el negocio ya intuía.</p>
+      <h1 class="hero-title">¿Puede un algoritmo encontrar a tus mejores clientes <em>sin que nadie le diga quiénes son</em>?</h1>
+      <p class="hero-sub">Un modelo de segmentación no supervisada agrupó a {n_fmt} clientes de una cadena
+      de electrónica de consumo usando solo su comportamiento de compra — sin ver nunca la etiqueta de
+      perfil que el negocio ya les tenía asignada. El resultado: casi recupera él solo al mismo cliente
+      premium que marketing ya conocía.</p>
       <div class="hero-meta">
         <span class="hero-pill">Borja Mora Méndez</span>
         <span class="hero-pill">Python · scikit-learn (K-Means + t-SNE)</span>
