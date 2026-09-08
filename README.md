@@ -86,4 +86,4 @@ que hace `KMeans.predict()` por dentro, sin la sobrecarga de deserializar un pic
 
 ---
 
-**Autor:** Borja Mora Méndez · [LinkedIn](https://www.linkedin.com/in/borja-mora-mendez/) · [GitHub](https://github.com/BORJAMOME)
+**Autor:** Borja Mora Méndez · [LinkedIn](https://www.linkedin.com/in/borjamoramendez/) · [GitHub](https://github.com/BORJAMOME)
