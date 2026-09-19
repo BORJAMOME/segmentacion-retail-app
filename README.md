@@ -27,10 +27,11 @@ no es una réplica exacta de la segmentación original. (96,8% es la *pureza* de
 
 ## Qué te vas a encontrar al recorrerla
 
-La app se lee como un reportaje, en 12 tramos: **el problema**, **los datos**, **antes de modelar**,
-**el camino hasta el modelo**, **K-Means: cuatro grupos**, **los cuatro perfiles**, **¿coincide con el
-perfil original?**, **ponlo a prueba** (playground), **el resultado**, **¿qué podría hacer una
-empresa?**, **limitaciones** y **del dato a la decisión**.
+La app se lee como un reportaje, en 12 tramos: **el problema**, **los datos**, **antes de buscar grupos**,
+**¿cómo dejamos que los datos formen los grupos?**, **K-Means: cuatro grupos**, **los cuatro perfiles**,
+**¿coincide con el perfil original?**, **ponlo a prueba** (playground), **¿qué hemos descubierto?**, **¿qué
+podría hacer marketing con estos perfiles?**, **lo que sabemos y lo que no sabemos** y **del dato a la
+decisión**.
 
 ## Cómo está hecho
 

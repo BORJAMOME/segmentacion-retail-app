@@ -1,7 +1,7 @@
 """Figuras Plotly. Mismo sistema de color que el resto del portfolio:
 azules marino para lo estructural, verde/rojo solo para lo semántico.
 Los 4 clusters se colorean con significado, no arbitrariamente: rojo
-para el segmento en riesgo, verde para el premium, dos tonos de azul
+para el segmento de baja actividad, verde para el premium, dos tonos de azul
 marino para los dos intermedios (ninguno es "malo" ni "bueno" en sí)."""
 import numpy as np
 import textwrap

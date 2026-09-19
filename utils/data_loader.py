@@ -26,7 +26,7 @@ FEATURE_LABELS = {
 }
 
 CLUSTER_META = {
-    0: {"name": "Bajo valor y en riesgo", "color": "#C2412E"},
+    0: {"name": "Bajo valor y baja actividad", "color": "#C2412E"},
     1: {"name": "Digital, joven y frecuente", "color": "#4A628E"},
     2: {"name": "Premium", "color": "#6E7F5B"},
     3: {"name": "Valor medio-alto, de tienda", "color": "#273A5F"},
