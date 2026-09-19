@@ -439,9 +439,9 @@ CLUSTER_TEXT = {
            "poca actividad reciente."),
 }
 with ed.figure("perfiles"):
-    ed.cols([
-        {"tag": f"Cluster {cid} · {miles(size_n[cid])} clientes · {es(size_pct[cid])}%",
-         "title": CLUSTER_NAMES[cid], "text": CLUSTER_TEXT[cid], "color": CLUSTER_COLORS[cid]}
+    ed.cards([
+        {"tag": f"Cluster {cid}", "title": CLUSTER_NAMES[cid], "color": CLUSTER_COLORS[cid],
+         "stat": f"{es(size_pct[cid])}%", "stat_label": f"{miles(size_n[cid])} clientes", "text": CLUSTER_TEXT[cid]}
         for cid in [PREMIUM, TIENDA, DIGITAL, BAJA]
     ], count=4)
 
@@ -552,12 +552,11 @@ with ed.split("playground", "5-7") as (pg_left, pg_right):
     runner_up_id, runner_up_dist = sorted_dists[1]
 
     with pg_right:
-        ed.metrics(
-            [("Este cliente se parece más a", f"Cluster {cluster_id} — {CLUSTER_NAMES[cluster_id]}",
-              f"El segundo grupo más parecido es el Cluster {runner_up_id} ({CLUSTER_NAMES[runner_up_id]}).",
-              CLUSTER_COLORS[cluster_id])],
-            word=True,
-        )
+        ed.cards([{
+            "tag": "Este cliente se parece más a", "title": f"Cluster {cluster_id} — {CLUSTER_NAMES[cluster_id]}",
+            "color": CLUSTER_COLORS[cluster_id],
+            "text": f"El segundo grupo más parecido es el Cluster {runner_up_id} ({CLUSTER_NAMES[runner_up_id]}).",
+        }])
         st.plotly_chart(
             charts.playground_radar(user_scaled, centroid_scaled, FEATURES, FEATURE_LABELS),
             use_container_width=True, config=PLOT,
@@ -613,15 +612,15 @@ ed.beat(
     ),
 )
 with ed.figure("hipotesis"):
-    ed.cols([
-        {"tag": "Reactivación", "title": f"Cluster {BAJA} · {CLUSTER_NAMES[BAJA]}", "color": CLUSTER_COLORS[BAJA],
+    ed.cards([
+        {"tag": f"Reactivación · Cluster {BAJA}", "title": CLUSTER_NAMES[BAJA], "color": CLUSTER_COLORS[BAJA],
          "text": f"{miles(size_n[BAJA])} clientes llevan una media de {p.loc[BAJA, 'Days_Since_Last_Purchase']:.0f} "
                  "días sin comprar. Podría ser un grupo interesante para probar una campaña de reactivación y medir "
                  "cuántos clientes vuelven a comprar."},
-        {"tag": "Fidelización", "title": f"Cluster {PREMIUM} · {CLUSTER_NAMES[PREMIUM]}", "color": CLUSTER_COLORS[PREMIUM],
+        {"tag": f"Fidelización · Cluster {PREMIUM}", "title": CLUSTER_NAMES[PREMIUM], "color": CLUSTER_COLORS[PREMIUM],
          "text": "Es el grupo con mayor gasto y mayor actividad. Podría plantearse una estrategia específica de "
                  "fidelización para proteger este valor y medir su impacto sobre la retención."},
-        {"tag": "Aumentar valor", "title": f"Cluster {DIGITAL} · {CLUSTER_NAMES[DIGITAL]}", "color": CLUSTER_COLORS[DIGITAL],
+        {"tag": f"Aumentar valor · Cluster {DIGITAL}", "title": CLUSTER_NAMES[DIGITAL], "color": CLUSTER_COLORS[DIGITAL],
          "text": f"Es el grupo más numeroso y tiene un ticket medio de {eur(p.loc[DIGITAL, 'Average_Ticket'])}. "
                  "Podrían probarse estrategias de cross-selling o aumento de ticket, siempre validándolas mediante "
                  "un experimento."},
@@ -635,14 +634,14 @@ ed.insight(
 
 # ============================================================ 11 · LO QUE SABEMOS Y LO QUE NO SABEMOS ==
 ed.beat("limitaciones", "11", "Limitaciones", "Lo que sabemos y lo que no sabemos")
-ed.lists([
-    {"title": "Lo que el modelo sí puede hacer", "points": [
+ed.cards([
+    {"title": "Lo que el modelo sí puede hacer", "color": "var(--positive)", "points": [
         "Encontrar <b>grupos de clientes</b> con comportamientos de compra diferentes.",
         "Identificar un <b>grupo Premium especialmente consistente</b>.",
         "Describir las características de cada grupo <b>en términos que marketing puede interpretar</b>.",
         "Mostrar qué perfiles son fáciles de distinguir y <b>cuáles necesitan más información</b>.",
     ]},
-    {"title": "Lo que el modelo no puede hacer", "points": [
+    {"title": "Lo que el modelo no puede hacer", "color": "var(--negative)", "points": [
         "<b>Reproducir exactamente</b> la segmentación original.",
         "Distinguir claramente los <b>perfiles 1 y 5</b> utilizando solo las variables seleccionadas.",
         "Explicar <b>por qué</b> un cliente se comporta de una determinada manera.",
