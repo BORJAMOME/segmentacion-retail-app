@@ -2,9 +2,9 @@
 
 **¿Trata tu negocio a todos los clientes como si fueran el mismo, aunque no compren igual?**
 
-Una aplicación interactiva que cuenta, paso a paso, cómo descubrí 4 grupos reales de clientes
+Una aplicación interactiva que cuenta, paso a paso, cómo descubrí 4 grupos de clientes
 en una cadena de electrónica de consumo usando solo su comportamiento de compra, y cuánto se
-parecen a los que el negocio ya intuía, sin haberlos visto nunca durante el entrenamiento.
+parecen al perfil que ya traían asignado los datos, sin haberlo visto nunca durante el entrenamiento.
 
 No hace falta saber nada de Machine Learning para seguirla: empieza por el problema, sigue por
 los datos, y termina dejándote construir un cliente hipotético para ver en qué segmento caería.
@@ -16,23 +16,21 @@ los datos, y termina dejándote construir un cliente hipotético para ver en qu�
 ## De qué trata, en dos frases
 
 Una cadena de electrónica trata a todos sus clientes igual: las mismas ofertas, el mismo
-descuento genérico. Con **K-Means** y **t-SNE** agrupé a 6.457 clientes reales en 4 segmentos
+descuento genérico. Con **K-Means** y **t-SNE** agrupé a 6.457 clientes en 4 segmentos
 usando solo 9 variables de comportamiento (gasto, frecuencia, canal, recencia), sin usar la
-etiqueta de perfil que el negocio ya tenía asignada.
+etiqueta de perfil que ya venía en los datos.
 
-**El resultado:** el modelo recupera, sin haberla visto nunca, el 96,8% del segmento premium
-que el negocio ya identificaba a mano.
+**El resultado:** el grupo premium que encuentra el modelo es muy limpio —el 96,8% de sus clientes
+ya eran perfil 2 en los datos originales—, pero reúne solo al 71,3% de los clientes de ese perfil:
+no es una réplica exacta de la segmentación original. (96,8% es la *pureza* del cluster; 71,3% es la
+*cobertura* del perfil.)
 
 ## Qué te vas a encontrar al recorrerla
 
-1. **El problema** — por qué tratar a todos los clientes igual sale caro
-2. **Los datos** — 6.457 clientes, 26 variables originales, 9 usadas para segmentar
-3. **Antes de modelar** — qué se ve a simple vista antes de tocar ningún algoritmo
-4. **El camino hasta el modelo** — cómo se llegó a k=4, sin tecnicismos
-5. **K-Means (k=4)** — el modelo, sus 4 clusters proyectados en el mapa t-SNE
-6. **Los 4 perfiles** — qué caracteriza a cada segmento, en lenguaje de negocio
-7. **Playground** — construye un cliente hipotético y mira en qué segmento cae, en directo
-8. **Resultados y decisiones** — qué se descubrió y qué haría marketing con ello
+La app se lee como un reportaje, en 12 tramos: **el problema**, **los datos**, **antes de modelar**,
+**el camino hasta el modelo**, **K-Means: cuatro grupos**, **los cuatro perfiles**, **¿coincide con el
+perfil original?**, **ponlo a prueba** (playground), **el resultado**, **¿qué podría hacer una
+empresa?**, **limitaciones** y **del dato a la decisión**.
 
 ## Cómo está hecho
 
@@ -64,18 +62,21 @@ python model/train.py    # tarda 1-3 minutos (el paso más lento es ajustar t-SN
 <summary>Estructura del proyecto, para quien quiera curiosear el código</summary>
 
 ```
-app.py                    la aplicación — toda la narrativa, sección a sección
+app.py                    la aplicación — contenido y datos, beat a beat
 components/
-  ui.py                    bloques visuales reutilizables (tarjetas, títulos, callouts)
+  editorial.py              sistema editorial: un componente por función narrativa (lede, beat, figure…)
+  ui.py                    bloques visuales heredados de versiones anteriores (ya no los usa app.py)
   charts.py                 gráficos, con la paleta de colores del proyecto
 utils/
   data_loader.py             carga de datos y resultados (con cache de Streamlit)
   clustering.py               predice el cluster de un cliente hipotético en vivo
 model/
   train.py                    ajusta t-SNE y K-Means, calcula todos los resultados
+  export_profile_controls.py  medias por perfil original de variables no usadas (sin tocar el modelo)
   artifacts/                   resultados ya calculados (perfiles, coordenadas t-SNE...)
 data/                      el dataset original
-assets/style.css           el sistema visual de la app
+assets/editorial.css       sistema de composición editorial (rejilla, niveles de ancho, ritmo, tokens) — reutilizable
+assets/style.css           identidad de este proyecto (paleta y familias tipográficas)
 ```
 
 Hice que el Playground predijera el cluster de un cliente hipotético sin cargar un modelo de
@@ -85,5 +86,14 @@ que hace `KMeans.predict()` por dentro, sin la sobrecarga de deserializar un pic
 </details>
 
 ---
+
+### Sistema editorial (reutilizable en otros proyectos de ML)
+
+`assets/editorial.css` convierte el contenedor de Streamlit en una rejilla con cinco niveles de ancho
+(`--canvas-width` / `--wide-width` / `--story-width` / `--reading-width` / `--aside-width`), una escala de
+espacio (`--space-xs` … `--space-3xl`) y una escala tipográfica editorial. `components/editorial.py`
+expone un componente por función narrativa. Para reutilizarlo: copiar ambos archivos y definir la paleta
+en el `style.css` del proyecto. Requiere `streamlit==1.58.0` (usa `st.container(key=...)` y el DOM de esa
+versión).
 
 **Autor:** Borja Mora Méndez · [LinkedIn](https://www.linkedin.com/in/borjamoramendez/) · [GitHub](https://github.com/BORJAMOME)

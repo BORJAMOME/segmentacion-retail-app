@@ -4,6 +4,8 @@ Los 4 clusters se colorean con significado, no arbitrariamente: rojo
 para el segmento en riesgo, verde para el premium, dos tonos de azul
 marino para los dos intermedios (ninguno es "malo" ni "bueno" en sí)."""
 import numpy as np
+import textwrap
+
 import pandas as pd
 import plotly.graph_objects as go
 
@@ -45,20 +47,29 @@ def histogram(series: pd.Series, title_x: str) -> go.Figure:
     return _base_layout(fig, height=440, legend=False)
 
 
+def _wrap(label: str, width: int = 13) -> str:
+    """Parte una etiqueta larga en varias líneas para que no consuma el ancho del gráfico."""
+    return "<br>".join(textwrap.wrap(label, width))
+
+
 def correlation_heatmap(corr: pd.DataFrame, labels: dict) -> go.Figure:
+    """Matriz de correlación. Etiquetas en varias líneas y sin barra de color (cada celda muestra su
+    valor; azul = positiva, rojo = negativa): así las celdas conservan espacio en anchos estrechos."""
     cols = list(corr.columns)
-    nice = [labels.get(c, c) for c in cols]
+    nice = [_wrap(labels.get(c, c)) for c in cols]          # eje Y: varias líneas
+    nice_x = [labels.get(c, c) for c in cols]               # eje X: una línea, en vertical (sin solapes)
     z = corr.values
     fig = go.Figure(go.Heatmap(
-        z=z, x=nice, y=nice, zmin=-1, zmax=1,
+        z=z, x=nice_x, y=nice, zmin=-1, zmax=1,
         colorscale=[[0, NEGATIVE], [0.5, "#FBFBFB"], [1, NAVY2]],
         text=np.round(z, 2), texttemplate="%{text}", textfont=dict(size=10),
-        colorbar=dict(thickness=12, outlinewidth=0),
+        showscale=False,
     ))
-    fig.update_layout(height=540, margin=dict(l=10, r=10, t=10, b=10),
+    fig.update_layout(height=560, margin=dict(l=10, r=10, t=10, b=10),
                        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
                        font=dict(family=FONT, color=INK, size=11))
-    fig.update_xaxes(tickangle=-35)
+    fig.update_xaxes(tickangle=-90, automargin=True)
+    fig.update_yaxes(automargin=True, autorange="reversed")
     return fig
 
 
@@ -124,14 +135,19 @@ def cluster_profile_bars(profile: pd.DataFrame, feature: str, names: dict, label
 
 
 def crosstab_heatmap(ct: pd.DataFrame, names: dict) -> go.Figure:
-    y_labels = [f"Cluster {i} — {names.get(i, '')}" for i in ct.index]
+    """Cluster (filas) x perfil original (columnas). Las etiquetas de fila se parten en varias líneas y la
+    barra de color se omite (cada celda ya muestra su cifra): así el gráfico sigue siendo legible en
+    anchos estrechos, donde una etiqueta larga dejaba las celdas sin espacio."""
+    y_labels = [f"<b>Cluster {i}</b><br>" + "<br>".join(textwrap.wrap(names.get(i, ""), 14)) for i in ct.index]
     x_labels = [f"Perfil {c}" for c in ct.columns]
     fig = go.Figure(go.Heatmap(
         z=ct.values, x=x_labels, y=y_labels,
         colorscale=[[0, "#FBFBFB"], [1, NAVY2]],
         text=ct.values, texttemplate="%{text}", textfont=dict(size=11),
-        colorbar=dict(thickness=12, outlinewidth=0, title="clientes"),
+        showscale=False,
     ))
+    fig.update_xaxes(tickangle=0, automargin=True)
+    fig.update_yaxes(automargin=True, autorange="reversed")
     fig.update_layout(height=460, margin=dict(l=10, r=10, t=10, b=10),
                        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
                        font=dict(family=FONT, color=INK, size=11))
@@ -142,7 +158,9 @@ def playground_radar(user_scaled: dict, centroid_scaled: dict, features: list, l
     """Compara el perfil escalado del cliente hipotético con el centroide
     del cluster asignado — un radar es la forma más directa de leer
     "en qué se parece y en qué no" sobre varias variables a la vez."""
-    theta = [labels.get(f, f) for f in features] + [labels.get(features[0], features[0])]
+    # Etiquetas en varias líneas: una etiqueta larga en un eje lateral del radar se recortaba en móvil
+    wrapped = [_wrap(labels.get(f, f), 12) for f in features]
+    theta = wrapped + [wrapped[0]]
     user_vals = [user_scaled[f] for f in features] + [user_scaled[features[0]]]
     cen_vals = [centroid_scaled[f] for f in features] + [centroid_scaled[features[0]]]
     fig = go.Figure()
@@ -153,7 +171,7 @@ def playground_radar(user_scaled: dict, centroid_scaled: dict, features: list, l
                                    line=dict(color=SUPPORT, width=2.4), fill="toself",
                                    fillcolor="rgba(184,120,60,0.14)"))
     fig.update_layout(
-        height=520, margin=dict(l=40, r=40, t=30, b=10),
+        height=540, margin=dict(l=62, r=62, t=30, b=20),
         paper_bgcolor="rgba(0,0,0,0)",
         font=dict(family=FONT, color=INK, size=11),
         legend=dict(orientation="h", yanchor="bottom", y=1.05, xanchor="left", x=0, bgcolor="rgba(0,0,0,0)"),
