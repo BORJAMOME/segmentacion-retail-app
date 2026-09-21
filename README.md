@@ -66,7 +66,6 @@ python model/train.py    # tarda 1-3 minutos (el paso más lento es ajustar t-SN
 app.py                    la aplicación — contenido y datos, beat a beat
 components/
   editorial.py              sistema editorial: un componente por función narrativa (lede, beat, figure…)
-  ui.py                    bloques visuales heredados de versiones anteriores (ya no los usa app.py)
   charts.py                 gráficos, con la paleta de colores del proyecto
 utils/
   data_loader.py             carga de datos y resultados (con cache de Streamlit)
