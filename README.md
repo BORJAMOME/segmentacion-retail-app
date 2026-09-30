@@ -16,12 +16,12 @@ los datos, y termina dejándote construir un cliente hipotético para ver en qu�
 ## De qué trata, en dos frases
 
 Una cadena de electrónica trata a todos sus clientes igual: las mismas ofertas, el mismo
-descuento genérico. Con **K-Means** y **t-SNE** agrupé a 6.457 clientes en 4 segmentos
+descuento genérico. Con **K-Means** (y **t-SNE** para visualizarlos) agrupé a 6.457 clientes en 4 segmentos
 usando solo 9 variables de comportamiento (gasto, frecuencia, canal, recencia), sin usar la
 etiqueta de perfil que ya venía en los datos.
 
-**El resultado:** el grupo premium que encuentra el modelo es muy limpio —el 96,8% de sus clientes
-ya eran perfil 2 en los datos originales—, pero reúne solo al 71,3% de los clientes de ese perfil:
+**El resultado:** el grupo premium que encuentra el modelo es muy limpio (el 96,8% de sus clientes
+ya eran perfil 2 en los datos originales), pero reúne solo al 71,3% de los clientes de ese perfil:
 no es una réplica exacta de la segmentación original. (96,8% es la *pureza* del cluster; 71,3% es la
 *cobertura* del perfil.)
 

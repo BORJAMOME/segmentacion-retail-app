@@ -338,7 +338,7 @@ ed.passage(
     f"<b>valor económico</b>: lo explican sobre todo {axis_list('tSNE_1', ax1)}, y también los días desde la "
     f"última compra ({es(tsne_axis_corr.loc['Days_Since_Last_Purchase', 'tSNE_1'], 2)}). El vertical (tSNE_2) "
     f"separa al cliente más <b>digital</b> del que compra poco por internet: lo explican {axis_list('tSNE_2', ax2)}. "
-    "En dos preguntas: <i>¿cuánto vale este cliente?</i> y <i>¿qué tan digital es?</i>",
+    "En dos preguntas: <i>¿cuánto vale este cliente?</i> y <i>¿cómo de digital es?</i>",
     aside="Los ejes de t-SNE no tienen orientación fija: pueden cambiar entre ejecuciones. Aquí se interpretan "
           "con los valores guardados de esta ejecución.",
     aside_label="Nota",
@@ -373,7 +373,7 @@ ed.beat(
         "clientes."
     ),
 )
-ed.subhead("¿Qué tan claros son los grupos?")
+ed.subhead("¿Cómo de claros son los grupos?")
 ed.insight(
     "Los grupos son reconocibles, pero sus fronteras no son completamente claras: hay clientes que se "
     "encuentran entre dos perfiles y comparten características de ambos. Y eso es importante: el "
@@ -401,13 +401,13 @@ with ed.split("tsne-clusters", "8-4") as (viz, txt):
     with txt:
         ed.insight(
             "Los cuatro clusters ocupan regiones diferenciadas del mapa, coherentes con los ejes ya "
-            "interpretados: el premium se concentra en la zona de mayor valor económico, y los otros dos se "
-            "separan sobre todo en el eje digital."
+            "interpretados: el Premium se concentra en la zona de mayor valor económico y el resto se reparte "
+            "entre valor y canal digital."
         )
         ed.note(
             "<b>Detalle técnico.</b> K-Means y t-SNE parten de los mismos datos escalados, así que su "
             "coincidencia es coherente con que haya estructura pero no es una comprobación independiente. La "
-            "comprobación independiente es la comparación con el perfil original (beat 07)."
+            "comprobación independiente es la comparación con el perfil original (sección 07)."
         )
 
 # ============================================================ 06 · LOS CUATRO PERFILES ==
@@ -450,8 +450,8 @@ with ed.split("gasto-cluster", "5-7") as (txt, viz):
     with txt:
         ed.insight(
             f"El cliente Premium gasta, de media, <b>{es(ratio_spend)} veces más</b> que el grupo de menor valor. "
-            "Esta diferencia muestra que no estamos ante pequeñas variaciones de comportamiento, sino ante perfiles "
-            "de cliente con un valor económico muy distinto y, por tanto, con oportunidades comerciales diferentes."
+            "Son perfiles con un valor económico muy distinto y, por tanto, con oportunidades comerciales "
+            "diferentes."
         )
         ed.note(
             "Los perfiles describen promedios de grupo, no reglas fijas: dentro de cada cluster hay variación "
@@ -479,11 +479,9 @@ with ed.figure("crosstab", level="full"):
 ed.subhead("El grupo Premium es especialmente consistente")
 ed.insight(
     f"De los {prem_size} clientes que K-Means coloca en el grupo Premium, <b>{prem_n} ya pertenecían al perfil 2 "
-    f"original</b>: {prem_pureza * 100:.0f} de cada 100. Eso significa que el {pct(prem_pureza)} de los clientes de "
-    "este grupo compartían el mismo perfil que la segmentación original. Pero hay una segunda lectura importante: "
-    f"K-Means solo recupera al <b>{pct(prem_cobertura)}</b> de todos los clientes que originalmente pertenecían al "
-    "perfil 2. Por tanto, el modelo encuentra un grupo Premium muy limpio, pero no reproduce exactamente toda la "
-    "segmentación original.",
+    f"original</b>: {prem_pureza * 100:.0f} de cada 100. La otra cara es que K-Means solo recupera al "
+    f"<b>{pct(prem_cobertura)}</b> de los clientes que originalmente pertenecían al perfil 2. El grupo Premium que "
+    "encuentra es muy limpio, pero se deja fuera a buena parte de ese perfil.",
     aside=(
         f"Pureza del grupo (precisión) = {pct(prem_pureza)} · cobertura del perfil (recall) = {pct(prem_cobertura)}. "
         f"El perfil 2 es el de mayor gasto medio ({eur(profile_spend[2])}), por eso se asocia al grupo Premium. En el "
@@ -494,14 +492,13 @@ ed.insight(
 
 ed.subhead("Lo que el modelo no puede ver")
 ed.insight(
-    f"Y aquí aparece algo interesante: el grupo digital mezcla casi por igual los perfiles 1 y 5 originales "
+    f"El grupo digital, en cambio, mezcla casi por igual los perfiles 1 y 5 originales "
     f"({pct(dig_p1)} y {pct(dig_p5)}). Esto no significa necesariamente que K-Means esté fallando: sugiere que las "
     "9 variables utilizadas para crear los segmentos <b>no contienen suficiente información</b> para distinguirlos "
     "claramente. Cuando miramos las variables que dejamos fuera, encontramos diferencias en aspectos como los "
     f"cupones utilizados ({es(p1c['Coupons_Used'], 1)} de media en el perfil 1 frente a "
     f"{es(p5c['Coupons_Used'], 1)} en el perfil 5) y la antigüedad del cliente ({es(p1c['Customer_Tenure'], 1)} "
-    f"frente a {es(p5c['Customer_Tenure'], 1)}). Es una buena demostración de algo importante en Machine Learning: "
-    "<b>el modelo solo puede descubrir aquello que los datos le permiten ver</b>.",
+    f"frente a {es(p5c['Customer_Tenure'], 1)}). El modelo <b>no puede separar lo que no está en sus datos</b>.",
     aside=(
         f"Satisfacción ({es(p1c['Satisfaction'], 2)} y {es(p5c['Satisfaction'], 2)}) y devoluciones "
         f"({es(p1c['Returns'], 2)} y {es(p5c['Returns'], 2)}) casi no cambian entre ambos perfiles. No se ha "
@@ -598,9 +595,8 @@ ed.metrics([
      "Los grupos son reconocibles, pero sus fronteras no son del todo claras (silhouette score)."),
 ])
 ed.insight(
-    "No hemos encontrado una copia exacta de la segmentación original. Hemos encontrado <b>algo distinto y "
-    "útil</b>: una segmentación basada únicamente en comportamiento que permite identificar patrones "
-    "reconocibles y saber dónde funcionan —y dónde no— esos patrones."
+    "El resultado no es una copia de la segmentación original, pero sirve: una segmentación basada solo en "
+    "comportamiento, con patrones reconocibles y con <b>sus puntos débiles a la vista</b>."
 )
 
 # ============================================================ 10 · ¿QUÉ PODRÍA HACER MARKETING? ==
