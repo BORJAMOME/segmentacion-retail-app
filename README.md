@@ -13,6 +13,11 @@ los datos, y termina dejándote construir un cliente hipotético para ver en qu�
 
 🔗 **[Abrir la app](https://segmentacion-retail.streamlit.app)**
 
+**Stack:** Python · pandas · scikit-learn (K-Means, t-SNE) · Plotly · Streamlit
+
+<!-- Captura o GIF de la app: guárdalo en assets/demo.png y descomenta la línea siguiente -->
+<!-- ![Vista de la app](assets/demo.png) -->
+
 ## De qué trata, en dos frases
 
 Una cadena de electrónica trata a todos sus clientes igual: las mismas ofertas, el mismo
@@ -24,6 +29,26 @@ etiqueta de perfil que ya venía en los datos.
 ya eran perfil 2 en los datos originales), pero reúne solo al 71,3% de los clientes de ese perfil:
 no es una réplica exacta de la segmentación original. (96,8% es la *pureza* del cluster; 71,3% es la
 *cobertura* del perfil.)
+
+## Qué podría hacer el negocio con estos segmentos
+
+| Segmento | Hipótesis a probar |
+|---|---|
+| Baja actividad | Campaña de **reactivación**: llevan más tiempo sin comprar que ningún otro grupo |
+| Premium | Estrategia de **fidelización**: es el grupo de mayor gasto y actividad |
+| Digital (el más numeroso) | **Cross-selling** o subida de ticket medio |
+
+Son hipótesis de negocio, no conclusiones del modelo: para saber qué acción funciona habría que
+probarla con un experimento y medir su impacto.
+
+## Límites del análisis
+
+- No reproduce exactamente la segmentación original y no distingue bien los perfiles 1 y 5 con
+  estas 9 variables.
+- No hay conjunto de prueba y K-Means se entrenó con una sola semilla: falta comprobar la
+  estabilidad de los clusters con datos nuevos.
+- El dataset no incluye una variable de abandono, así que el grupo de baja actividad no permite
+  afirmar que esos clientes se vayan a ir.
 
 ## Qué te vas a encontrar al recorrerla
 
@@ -46,6 +71,8 @@ datos: nada está escrito a mano.
 ## Ejecutarla en tu ordenador
 
 ```bash
+python -m venv .venv
+.venv\Scripts\activate        # en macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
 streamlit run app.py
 ```
@@ -100,4 +127,4 @@ versión).
 
 El código está bajo licencia [MIT](LICENSE). Los datasets de `data/` pertenecen a sus fuentes originales y no están incluidos en esta licencia.
 
-**Autor:** Borja Mora Méndez · [LinkedIn](https://www.linkedin.com/in/borjamoramendez/) · [GitHub](https://github.com/BORJAMOME)
+**Autor:** Borja Mora Méndez · [Portfolio](https://borjamora.es/) · [LinkedIn](https://www.linkedin.com/in/borjamoramendez/) · [GitHub](https://github.com/BORJAMOME)
