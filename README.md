@@ -62,6 +62,4 @@ Los cálculos se realizan previamente mediante `model/train.py` y los resultados
 
 [Portfolio](https://borjamora.es/) · [LinkedIn](https://www.linkedin.com/in/borjamoramendez/) · [GitHub](https://github.com/BORJAMOME)
 
-**Autor:** Borja Mora Méndez
 
-[Portfolio](https://borjamora.es/) · [LinkedIn](https://www.linkedin.com/in/borjamoramendez/) · [GitHub](https://github.com/BORJAMOME)
