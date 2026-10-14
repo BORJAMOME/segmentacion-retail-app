@@ -1,8 +1,8 @@
 # Segmentación de Clientes Retail
 
-Una aplicación interactiva que explica cómo he utilizado **Machine Learning para identificar cuatro segmentos de clientes** en una cadena de electrónica de consumo. A través de una narrativa visual, exploro sus hábitos de compra, comparo los grupos obtenidos con los perfiles originales del dataset y planteo posibles oportunidades de negocio.
+En este proyecto he utilizado K-Means para agrupar clientes de una cadena de electrónica de consumo según su comportamiento de compra. Después, he desarrollado una aplicación interactiva con Streamlit para explicar el análisis, explorar los resultados y probar cómo se clasificaría un cliente hipotético.
 
-No necesitas conocimientos previos de Machine Learning: la aplicación te guía desde el problema de negocio y la preparación de los datos hasta la interpretación de los resultados. También incluye un simulador para crear un cliente hipotético y explorar a qué segmento podría pertenecer.
+La aplicación recorre el proceso desde los datos iniciales hasta los cuatro segmentos obtenidos, incluyendo una comparación con los perfiles que ya aparecían en el dataset.
 
 ## Ver la aplicación
 
@@ -12,63 +12,60 @@ No necesitas conocimientos previos de Machine Learning: la aplicación te guía 
 
 ## El análisis
 
-He trabajado con **6.457 clientes y nueve variables de comportamiento**, relacionadas con el gasto, la frecuencia de compra, la recencia y el canal. Con K-Means he identificado cuatro grupos sin utilizar durante el entrenamiento la etiqueta de perfil que ya incluían los datos originales.
+He trabajado con 6.457 clientes y nueve variables relacionadas con su comportamiento de compra, como el gasto, la frecuencia, el tiempo transcurrido desde la última compra y el canal utilizado.
 
-El objetivo es comprobar hasta qué punto los segmentos descubiertos a partir del comportamiento de compra se parecen a los perfiles existentes, y qué información pueden aportar para comprender mejor a los clientes.
+Con K-Means he obtenido cuatro grupos sin utilizar durante el entrenamiento los perfiles originales incluidos en los datos. Después, he comparado ambos resultados para ver en qué medida coincidían.
 
-### Principales resultados
+### Algunos resultados
 
-El segmento identificado como premium presenta una **pureza del 96,8 %**: casi todos sus integrantes pertenecían al perfil 2 en los datos originales. Sin embargo, solo reúne al 71,3 % de los clientes de ese perfil.
+El segmento que he identificado como premium tiene una pureza del 96,8 %: ese porcentaje de sus integrantes ya pertenecía al perfil 2 del dataset original.
 
-Esta diferencia es importante: el modelo identifica un grupo bastante homogéneo, pero no reproduce por completo la clasificación original. Los segmentos obtenidos reflejan patrones de comportamiento, no una verdad definitiva sobre cada cliente.
+Sin embargo, el segmento solo recoge al 71,3 % de los clientes de ese perfil. Es decir, el modelo encuentra un grupo bastante definido, pero no reproduce exactamente la clasificación original.
 
-## ¿Qué oportunidades de negocio sugieren los segmentos?
+También he identificado grupos con distintos niveles de actividad y diferencias en sus hábitos de compra. Estas características permiten plantear posibles acciones de marketing, aunque habría que analizarlas y probarlas antes de sacar conclusiones.
 
-| Segmento | Posible aplicación |
-|---|---|
-| Baja actividad | Explorar campañas de reactivación para clientes que llevan más tiempo sin comprar. |
-| Premium | Evaluar acciones de fidelización para clientes con mayor gasto y actividad. |
-| Digital | Investigar oportunidades de venta cruzada o de aumento del ticket medio. |
+## La aplicación
 
-Estas propuestas son hipótesis que habría que validar mediante experimentos y medición de resultados. El análisis, por sí solo, no demuestra que una campaña vaya a funcionar.
+He organizado el contenido en 12 apartados para poder seguir el análisis paso a paso:
 
-## Qué encontrarás en la aplicación
+- El problema y los datos utilizados.
+- La preparación de los datos antes del modelado.
+- Cómo funciona K-Means y cómo se forman los cuatro grupos.
+- Las características de cada segmento.
+- La comparación con los perfiles originales.
+- Un simulador para introducir los datos de un cliente hipotético y ver a qué grupo se asignaría.
+- Posibles usos de los resultados en marketing.
+- Las limitaciones del análisis y las conclusiones.
 
-He organizado el recorrido en 12 etapas, siguiendo un enfoque de *data storytelling*:
+Los gráficos interactivos permiten explorar los grupos y observar sus diferencias. También utilizo t-SNE para representar los datos en dos dimensiones y facilitar su interpretación visual.
 
-- **El problema de negocio:** por qué tiene sentido estudiar el comportamiento de los clientes.
-- **Los datos:** qué información utilizo y qué limitaciones tiene.
-- **El proceso de modelado:** cómo funciona K-Means y cómo se forman los cuatro grupos.
-- **Los perfiles:** qué características distinguen a cada segmento.
-- **La comparación con los datos originales:** hasta qué punto coinciden ambas clasificaciones.
-- **El simulador interactivo:** cómo se clasificaría un cliente hipotético.
-- **Las oportunidades de negocio:** qué acciones podría explorar el área de marketing.
-- **Las limitaciones y conclusiones:** qué hemos descubierto y qué queda por comprobar.
+## Limitaciones
 
-La visualización con t-SNE facilita la exploración visual de los grupos, mientras que Plotly permite interactuar con los gráficos y examinar los resultados.
+El análisis tiene varios aspectos que conviene tener en cuenta:
 
-## Limitaciones del análisis
+- Los grupos obtenidos no coinciden exactamente con los perfiles originales. Con las variables utilizadas, tampoco consigo distinguir bien los perfiles 1 y 5.
+- El modelo se ha entrenado con una sola semilla. Queda pendiente comprobar si los grupos se mantienen estables con otras inicializaciones y con datos nuevos.
+- El dataset no incluye información sobre abandono, por lo que no puedo afirmar que los clientes con menor actividad vayan a dejar de comprar.
 
-Para interpretar correctamente los resultados, es importante tener en cuenta que:
+Estas limitaciones forman parte del resultado y ayudan a entender qué se puede interpretar a partir del modelo y qué necesitaría más análisis.
 
-- El modelo no reproduce exactamente los perfiles originales y tiene dificultades para distinguir los perfiles 1 y 5 con las nueve variables utilizadas.
-- K-Means se entrenó con una única semilla y no se ha evaluado con un conjunto de prueba independiente. La estabilidad de los segmentos con datos nuevos queda pendiente de comprobar.
-- El dataset no contiene una variable de abandono. Por tanto, el segmento de baja actividad no permite concluir que sus integrantes vayan a dejar de comprar.
-- Las asociaciones entre segmentos y posibles acciones comerciales no demuestran causalidad ni garantizan resultados.
+## Código y análisis completo
 
-## Cómo está construido
+La aplicación está desarrollada con Python y Streamlit. Para el análisis he utilizado pandas y scikit-learn, con K-Means para la segmentación y t-SNE para la representación visual de los grupos. Plotly se encarga de los gráficos interactivos.
 
-La aplicación utiliza Python y Streamlit para presentar el análisis de forma interactiva. El modelado se ha realizado con scikit-learn, mediante K-Means para la segmentación y t-SNE para la representación visual de los datos.
+Los cálculos se realizan previamente mediante `model/train.py` y los resultados se guardan para que la aplicación pueda mostrarlos sin entrenar el modelo cada vez que se abre.
 
-Los resultados que muestra la aplicación se calculan previamente mediante `model/train.py` y se guardan para su consulta, evitando tener que entrenar el modelo cada vez que se abre la aplicación.
-
-**[Consultar el análisis completo en el repositorio de GitHub](https://github.com/BORJAMOME/Data-Analytics-Portfolio/tree/main/03-Machine-Learning/02-no-supervisado/clustering/kmeans/04-segmentacion-retail-tsne)**
+**[Ver el código y los notebooks del análisis en GitHub](https://github.com/BORJAMOME/Data-Analytics-Portfolio/tree/main/03-Machine-Learning/02-no-supervisado/clustering/kmeans/04-segmentacion-retail-tsne)**
 
 ## Licencia
 
-El código está disponible bajo la [licencia MIT](LICENSE). Los datasets de `data/` pertenecen a sus fuentes originales y no están cubiertos por esta licencia.
+El código está disponible bajo la [licencia MIT](LICENSE). Los datasets de `data/` pertenecen a sus fuentes originales y no están incluidos en esta licencia.
 
 ---
+
+**Borja Mora Méndez**
+
+[Portfolio](https://borjamora.es/) · [LinkedIn](https://www.linkedin.com/in/borjamoramendez/) · [GitHub](https://github.com/BORJAMOME)
 
 **Autor:** Borja Mora Méndez
 
