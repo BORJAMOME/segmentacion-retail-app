@@ -1,54 +1,96 @@
-# Análisis Conjoint: Preferencias de vuelos
+# Segmentación de clientes con Machine Learning
 
-¿Qué hace que un vuelo merezca la pena para cada cliente? En este proyecto he analizado cómo influyen el precio, el equipaje, el asiento, las escalas, la flexibilidad y el horario en la valoración de un vuelo.
+¿Podemos identificar distintos tipos de clientes a partir de su comportamiento de compra, sin utilizar los perfiles que ya tienen asignados? En este proyecto he trabajado con los datos de 6.457 clientes de una cadena de electrónica para descubrir grupos con características similares y comprobar hasta qué punto se parecen a una segmentación existente.
 
-He desarrollado una aplicación interactiva para entender qué características tienen más peso en la decisión de compra y cómo cambian las preferencias según el tipo de cliente. Además, permite diseñar un vuelo hipotético y comparar cómo lo valoraría cada segmento.
+He utilizado K-Means para crear los segmentos y t-SNE para explorar visualmente los patrones de los datos. Además, he desarrollado una aplicación interactiva en la que se puede definir un cliente y comprobar a qué grupo se parece más.
 
-
-🔗 **[Abrir la aplicación interactiva](https://preferencias-vuelos.streamlit.app/)**
+**[Abrir la aplicación interactiva](https://segmentacion-retail.streamlit.app/)**
 
 ## El análisis
 
-He trabajado con las valoraciones de 1.000 clientes de una aerolínea, que puntuaron del 1 al 10 un conjunto de 24 combinaciones de vuelo. Estas combinaciones forman parte de un diseño experimental fraccionado que recoge distintas opciones de seis atributos, sin necesidad de evaluar todas las combinaciones posibles.
+He partido de un conjunto de datos con 6.457 clientes y 26 variables relacionadas con el gasto, la frecuencia de compra, la actividad digital y la relación con la tienda.
 
-A partir de las 24.000 valoraciones, he aplicado una regresión lineal para estimar la contribución de cada característica y de sus distintos niveles a la valoración global. Este método, conocido como análisis conjoint, permite estudiar qué aspectos influyen más en las preferencias de los clientes.
+Para crear los segmentos, he seleccionado nueve variables de comportamiento y valor del cliente. Antes de entrenar el modelo, he revisado su distribución y las relaciones entre ellas, ya que algunas contienen información muy similar. Por ejemplo, el gasto total y los puntos de fidelidad tienen una correlación de 0,99.
 
-### Resultados principales
+Una decisión importante ha sido reservar el perfil original de cada cliente. El conjunto de datos ya incluía una clasificación en cinco perfiles, pero no la he utilizado para entrenar el modelo. Así he podido comprobar después si K-Means encontraba grupos parecidos utilizando únicamente las variables seleccionadas.
 
-El precio y las escalas reúnen el 69 % de la importancia relativa media en la valoración de los vuelos. Sin embargo, al analizar los segmentos por separado, he encontrado diferencias importantes:
+### Cómo he elegido los segmentos
 
-- **Business:** la posibilidad de volar directamente tiene más peso que el precio, con un 37,9 % frente a un 24,4 %.
-- **Low Cost:** el precio concentra el 59,7 % de la importancia relativa, por encima del resto de características.
+He estandarizado las variables para que las diferencias de escala no condicionaran el cálculo de distancias. Después, he utilizado t-SNE para explorar visualmente los datos y he probado soluciones de entre dos y ocho grupos con K-Means.
 
-Estos resultados muestran que no todos los clientes valoran un vuelo de la misma manera. Mientras que para un segmento evitar escalas puede ser prioritario, para otro el precio puede tener mucho más peso.
+Aunque la solución de dos grupos obtenía el mejor resultado estadístico, separaba principalmente a los clientes según su valor económico. Finalmente, he elegido cuatro segmentos porque ofrecían un resultado de separación similar y permitían describir perfiles más útiles para el análisis de negocio.
 
-También he calculado intervalos de confianza mediante *bootstrap* de clientes para comprobar la incertidumbre de las estimaciones. Esto ayuda a valorar la precisión de los resultados y a distinguir las diferencias observadas de la variabilidad del muestreo.
+La solución final obtiene un *silhouette score* de 0,317. Los grupos presentan patrones reconocibles, aunque algunos clientes comparten características de varios segmentos y sus fronteras no están completamente definidas.
 
-## Qué encontrarás en la aplicación
+## Los cuatro perfiles de clientes
 
-He organizado el análisis en nueve apartados para explicar el problema, los resultados y sus posibles aplicaciones:
+El modelo ha identificado cuatro grupos con diferencias en el gasto, la frecuencia de compra y el uso de los canales digitales.
 
-1. **El problema:** qué características pueden influir en la elección de un vuelo y por qué conviene estudiar las preferencias de cada cliente.
-2. **Los datos:** las 24 combinaciones de vuelo, los seis atributos analizados y las 24.000 valoraciones.
-3. **Antes de modelar:** cómo se distribuyen las puntuaciones y qué diferencias hay entre los segmentos.
-4. **Cómo funciona un análisis conjoint:** cómo paso de una valoración global a estimar la contribución de cada característica, con una explicación sencilla del método.
-5. **El modelo:** resultados de la regresión, utilidades parciales de los atributos y relación entre el precio y la valoración.
-6. **Explicabilidad:** importancia relativa de cada atributo para el conjunto de clientes.
-7. **Segmentos:** comparación de las preferencias de Business, Low Cost y el tercer segmento analizado.
-8. **Prueba interactiva:** diseño de un vuelo hipotético para comparar las valoraciones estimadas de cada segmento. La aplicación distingue entre combinaciones observadas y estimaciones, y avisa cuando una predicción queda fuera de la escala de valoración.
-9. **Resultados, decisiones y límites:** posibles aplicaciones de los hallazgos, hipótesis de negocio y aspectos que conviene tener en cuenta al interpretar el análisis.
+| Segmento | Clientes | Características principales |
+|---|---:|---|
+| **Premium** | 978 (15,1 %) | Mayor gasto medio, compras recientes y elevada actividad online. |
+| **Valor medio-alto, de tienda** | 1.386 (21,5 %) | Gasto medio-alto y mayor preferencia por la tienda física. |
+| **Digital, joven y frecuente** | 2.230 (34,5 %) | Grupo más numeroso, edad media de 34 años y un 87 % de compras online. |
+| **Bajo valor y baja actividad** | 1.863 (28,9 %) | Menor gasto medio y una media de 270 días desde la última compra. |
+
+El grupo Premium destaca por un gasto medio de 13.960 €, mientras que el segmento de bajo valor y baja actividad registra una media de 1.803 €. Esta diferencia refleja que los clientes tienen comportamientos y valores económicos muy distintos.
+
+También he comprobado que los promedios describen tendencias de cada grupo, no reglas aplicables a todos sus integrantes. Por eso, interpreto los segmentos como una herramienta para entender mejor a los clientes, no como etiquetas definitivas.
+
+## ¿Coinciden con los perfiles originales?
+
+Una vez entrenado el modelo, he comparado los cuatro grupos obtenidos con los cinco perfiles que ya incluía el conjunto de datos.
+
+El resultado más claro aparece en el segmento Premium: el 96,8 % de los clientes asignados a este grupo pertenecían al perfil 2 original. Sin embargo, el modelo solo recupera al 71,3 % de los clientes que formaban parte de ese perfil.
+
+Esta diferencia es importante. El grupo Premium que he obtenido es bastante consistente, pero no recoge a todos los clientes de alto valor de la clasificación original.
+
+También he encontrado dificultades para distinguir los perfiles originales 1 y 5. El segmento digital mezcla ambos perfiles casi por igual, lo que sugiere que las nueve variables seleccionadas no contienen suficiente información para diferenciarlos. Al revisar otras variables disponibles, he observado diferencias en aspectos como el uso de cupones y la antigüedad del cliente.
+
+Esta comparación me ha permitido identificar tanto los patrones que el modelo consigue recuperar como la información que podría necesitar para mejorar la segmentación.
+
+## Qué podría aportar al negocio
+
+La segmentación permite plantear distintas estrategias para cada grupo, aunque los resultados del modelo no demuestran por sí solos qué acciones funcionarán mejor.
+
+- **Reactivación:** probar campañas dirigidas al grupo de baja actividad y medir cuántos clientes vuelven a comprar.
+- **Fidelización:** estudiar acciones específicas para el segmento Premium y evaluar su impacto en la retención.
+- **Aumento del ticket medio:** explorar iniciativas de venta cruzada para el grupo digital, joven y frecuente, cuyo ticket medio es de 155 €.
+
+Estas propuestas son hipótesis de negocio. Para comprobar su eficacia, sería necesario probar las acciones y medir sus resultados antes de extraer conclusiones.
+
+## Aplicación interactiva
+
+He desarrollado una aplicación con Streamlit para recorrer el análisis y probar cómo funciona la segmentación.
+
+En ella se puede consultar el problema de negocio, explorar los datos, entender el método utilizado, comparar los perfiles y revisar los resultados de la validación. También incluye un apartado interactivo en el que se pueden modificar las características de un cliente y observar a qué segmento se parece más.
+
+La aplicación utiliza los mismos parámetros de escalado del entrenamiento y compara el cliente con los centroides aprendidos por K-Means. De esta forma, la asignación se realiza con el mismo criterio que he utilizado para construir los grupos.
 
 ## Tecnologías y desarrollo
 
-He desarrollado la aplicación con Python y Streamlit, utilizando `statsmodels` y su implementación de mínimos cuadrados ordinarios (`OLS`) para estimar el modelo de regresión.
+He realizado el análisis con Python y scikit-learn, utilizando K-Means para la segmentación y t-SNE para la exploración visual de los datos. Para presentar los resultados y permitir la interacción, he utilizado Streamlit.
 
-He separado el cálculo de los resultados de su presentación en la aplicación. El archivo `model/train.py` genera las métricas y estimaciones que se muestran, mientras que `model/export_design_checks.py` reúne las comprobaciones del diseño experimental y la robustez del análisis.
+He separado el análisis y el entrenamiento del modelo de la aplicación que muestra los resultados. También he reservado los perfiles originales para realizar una comprobación posterior, sin utilizarlos durante la creación de los segmentos.
 
-Entre estas comprobaciones se incluyen la calidad del diseño, el uso de errores agrupados por cliente, los límites de la escala de valoración y los intervalos de confianza por segmento. Los resultados se guardan para que la aplicación pueda mostrarlos sin tener que repetir el análisis cada vez que se abre.
+**[Consultar el código y los notebooks en GitHub](https://github.com/BORJAMOME/Data-Analytics-Portfolio)**
 
-**[Consultar el código y el notebook en GitHub](https://github.com/BORJAMOME/Data-Analytics-Portfolio/tree/main/03-Machine-Learning/01-supervisado/regresion/02-regresion-lineal-multiple/03-preferencias-vuelos-conjoint)**
+## Limitaciones del análisis
 
----
+Los resultados muestran que es posible encontrar grupos reconocibles a partir de las variables seleccionadas, pero también hay aspectos que conviene tener en cuenta.
+
+- El modelo no reproduce exactamente los cinco perfiles originales.
+- Algunos grupos se solapan y no todos los clientes encajan claramente en un único perfil.
+- La segmentación se ha entrenado con los 6.457 clientes disponibles; no he comprobado su estabilidad con nuevos datos ni con diferentes semillas.
+- No puedo afirmar que los clientes con poca actividad vayan a abandonar la tienda, ni que una campaña concreta vaya a funcionar mejor para un segmento.
+
+Para llevar esta segmentación a un entorno real, el siguiente paso sería comprobar su estabilidad con nuevos datos y estudiar qué información adicional ayudaría a distinguir mejor determinados perfiles.
+
+## Conclusión
+
+En este proyecto he utilizado nueve variables de comportamiento para identificar cuatro segmentos de clientes mediante K-Means. La comparación con los perfiles originales me ha permitido comprobar que el modelo recupera algunos grupos con bastante precisión, aunque también muestra dónde falta información para distinguir mejor ciertos comportamientos.
+
+La parte más interesante ha sido comprobar que una segmentación no tiene por qué reproducir exactamente una clasificación existente para resultar útil. También puede ayudar a descubrir patrones, detectar limitaciones en los datos y plantear nuevas preguntas de negocio.
 
 **Borja Mora Méndez**
 
