@@ -1,62 +1,54 @@
-# Segmentación de Clientes Retail
+# Análisis Conjoint: Preferencias de vuelos
 
-En este proyecto he utilizado K-Means para agrupar clientes de una cadena de electrónica de consumo según su comportamiento de compra. Después, he desarrollado una aplicación interactiva con Streamlit para explicar el análisis, explorar los resultados y probar cómo se clasificaría un cliente hipotético.
+¿Qué hace que un vuelo merezca la pena para cada cliente? En este proyecto he analizado cómo influyen el precio, el equipaje, el asiento, las escalas, la flexibilidad y el horario en la valoración de un vuelo.
 
-La aplicación recorre el proceso desde los datos iniciales hasta los cuatro segmentos obtenidos, incluyendo una comparación con los perfiles que ya aparecían en el dataset.
+He desarrollado una aplicación interactiva para entender qué características tienen más peso en la decisión de compra y cómo cambian las preferencias según el tipo de cliente. Además, permite diseñar un vuelo hipotético y comparar cómo lo valoraría cada segmento.
 
-## Ver la aplicación
 
-**[Abrir la aplicación interactiva](https://segmentacion-retail.streamlit.app)**
-
-**Tecnologías:** Python · pandas · scikit-learn · K-Means · t-SNE · Plotly · Streamlit
+🔗 **[Abrir la aplicación interactiva](https://preferencias-vuelos.streamlit.app/)**
 
 ## El análisis
 
-He trabajado con 6.457 clientes y nueve variables relacionadas con su comportamiento de compra, como el gasto, la frecuencia, el tiempo transcurrido desde la última compra y el canal utilizado.
+He trabajado con las valoraciones de 1.000 clientes de una aerolínea, que puntuaron del 1 al 10 un conjunto de 24 combinaciones de vuelo. Estas combinaciones forman parte de un diseño experimental fraccionado que recoge distintas opciones de seis atributos, sin necesidad de evaluar todas las combinaciones posibles.
 
-Con K-Means he obtenido cuatro grupos sin utilizar durante el entrenamiento los perfiles originales incluidos en los datos. Después, he comparado ambos resultados para ver en qué medida coincidían.
+A partir de las 24.000 valoraciones, he aplicado una regresión lineal para estimar la contribución de cada característica y de sus distintos niveles a la valoración global. Este método, conocido como análisis conjoint, permite estudiar qué aspectos influyen más en las preferencias de los clientes.
 
-### Algunos resultados
+### Resultados principales
 
-El segmento que he identificado como premium tiene una pureza del 96,8 %: ese porcentaje de sus integrantes ya pertenecía al perfil 2 del dataset original.
+El precio y las escalas reúnen el 69 % de la importancia relativa media en la valoración de los vuelos. Sin embargo, al analizar los segmentos por separado, he encontrado diferencias importantes:
 
-Sin embargo, el segmento solo recoge al 71,3 % de los clientes de ese perfil. Es decir, el modelo encuentra un grupo bastante definido, pero no reproduce exactamente la clasificación original.
+- **Business:** la posibilidad de volar directamente tiene más peso que el precio, con un 37,9 % frente a un 24,4 %.
+- **Low Cost:** el precio concentra el 59,7 % de la importancia relativa, por encima del resto de características.
 
-También he identificado grupos con distintos niveles de actividad y diferencias en sus hábitos de compra. Estas características permiten plantear posibles acciones de marketing, aunque habría que analizarlas y probarlas antes de sacar conclusiones.
+Estos resultados muestran que no todos los clientes valoran un vuelo de la misma manera. Mientras que para un segmento evitar escalas puede ser prioritario, para otro el precio puede tener mucho más peso.
 
-## La aplicación
+También he calculado intervalos de confianza mediante *bootstrap* de clientes para comprobar la incertidumbre de las estimaciones. Esto ayuda a valorar la precisión de los resultados y a distinguir las diferencias observadas de la variabilidad del muestreo.
 
-He organizado el contenido en 12 apartados para poder seguir el análisis paso a paso:
+## Qué encontrarás en la aplicación
 
-- El problema y los datos utilizados.
-- La preparación de los datos antes del modelado.
-- Cómo funciona K-Means y cómo se forman los cuatro grupos.
-- Las características de cada segmento.
-- La comparación con los perfiles originales.
-- Un simulador para introducir los datos de un cliente hipotético y ver a qué grupo se asignaría.
-- Posibles usos de los resultados en marketing.
-- Las limitaciones del análisis y las conclusiones.
+He organizado el análisis en nueve apartados para explicar el problema, los resultados y sus posibles aplicaciones:
 
-Los gráficos interactivos permiten explorar los grupos y observar sus diferencias. También utilizo t-SNE para representar los datos en dos dimensiones y facilitar su interpretación visual.
+1. **El problema:** qué características pueden influir en la elección de un vuelo y por qué conviene estudiar las preferencias de cada cliente.
+2. **Los datos:** las 24 combinaciones de vuelo, los seis atributos analizados y las 24.000 valoraciones.
+3. **Antes de modelar:** cómo se distribuyen las puntuaciones y qué diferencias hay entre los segmentos.
+4. **Cómo funciona un análisis conjoint:** cómo paso de una valoración global a estimar la contribución de cada característica, con una explicación sencilla del método.
+5. **El modelo:** resultados de la regresión, utilidades parciales de los atributos y relación entre el precio y la valoración.
+6. **Explicabilidad:** importancia relativa de cada atributo para el conjunto de clientes.
+7. **Segmentos:** comparación de las preferencias de Business, Low Cost y el tercer segmento analizado.
+8. **Prueba interactiva:** diseño de un vuelo hipotético para comparar las valoraciones estimadas de cada segmento. La aplicación distingue entre combinaciones observadas y estimaciones, y avisa cuando una predicción queda fuera de la escala de valoración.
+9. **Resultados, decisiones y límites:** posibles aplicaciones de los hallazgos, hipótesis de negocio y aspectos que conviene tener en cuenta al interpretar el análisis.
 
-## Limitaciones
+## Tecnologías y desarrollo
 
-El análisis tiene varios aspectos que conviene tener en cuenta:
+He desarrollado la aplicación con Python y Streamlit, utilizando `statsmodels` y su implementación de mínimos cuadrados ordinarios (`OLS`) para estimar el modelo de regresión.
 
-- Los grupos obtenidos no coinciden exactamente con los perfiles originales. Con las variables utilizadas, tampoco consigo distinguir bien los perfiles 1 y 5.
-- El modelo se ha entrenado con una sola semilla. Queda pendiente comprobar si los grupos se mantienen estables con otras inicializaciones y con datos nuevos.
-- El dataset no incluye información sobre abandono, por lo que no puedo afirmar que los clientes con menor actividad vayan a dejar de comprar.
+He separado el cálculo de los resultados de su presentación en la aplicación. El archivo `model/train.py` genera las métricas y estimaciones que se muestran, mientras que `model/export_design_checks.py` reúne las comprobaciones del diseño experimental y la robustez del análisis.
 
-Estas limitaciones forman parte del resultado y ayudan a entender qué se puede interpretar a partir del modelo y qué necesitaría más análisis.
+Entre estas comprobaciones se incluyen la calidad del diseño, el uso de errores agrupados por cliente, los límites de la escala de valoración y los intervalos de confianza por segmento. Los resultados se guardan para que la aplicación pueda mostrarlos sin tener que repetir el análisis cada vez que se abre.
 
-## Código y análisis completo
+**[Consultar el código y el notebook en GitHub](https://github.com/BORJAMOME/Data-Analytics-Portfolio/tree/main/03-Machine-Learning/01-supervisado/regresion/02-regresion-lineal-multiple/03-preferencias-vuelos-conjoint)**
 
-La aplicación está desarrollada con Python y Streamlit. Para el análisis he utilizado pandas y scikit-learn, con K-Means para la segmentación y t-SNE para la representación visual de los grupos. Plotly se encarga de los gráficos interactivos.
-
-Los cálculos se realizan previamente mediante `model/train.py` y los resultados se guardan para que la aplicación pueda mostrarlos sin entrenar el modelo cada vez que se abre.
-
-**[Ver el código y los notebooks del análisis en GitHub](https://github.com/BORJAMOME/Data-Analytics-Portfolio/tree/main/03-Machine-Learning/02-no-supervisado/clustering/kmeans/04-segmentacion-retail-tsne)**
-
+---
 
 **Borja Mora Méndez**
 
