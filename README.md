@@ -57,11 +57,6 @@ Los cálculos se realizan previamente mediante `model/train.py` y los resultados
 
 **[Ver el código y los notebooks del análisis en GitHub](https://github.com/BORJAMOME/Data-Analytics-Portfolio/tree/main/03-Machine-Learning/02-no-supervisado/clustering/kmeans/04-segmentacion-retail-tsne)**
 
-## Licencia
-
-El código está disponible bajo la [licencia MIT](LICENSE). Los datasets de `data/` pertenecen a sus fuentes originales y no están incluidos en esta licencia.
-
----
 
 **Borja Mora Méndez**
 
