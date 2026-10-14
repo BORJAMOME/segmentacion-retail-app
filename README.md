@@ -73,24 +73,6 @@ He realizado el análisis con Python y scikit-learn, utilizando K-Means para la 
 
 He separado el análisis y el entrenamiento del modelo de la aplicación que muestra los resultados. También he reservado los perfiles originales para realizar una comprobación posterior, sin utilizarlos durante la creación de los segmentos.
 
-**[Consultar el código y los notebooks en GitHub](https://github.com/BORJAMOME/Data-Analytics-Portfolio)**
-
-## Limitaciones del análisis
-
-Los resultados muestran que es posible encontrar grupos reconocibles a partir de las variables seleccionadas, pero también hay aspectos que conviene tener en cuenta.
-
-- El modelo no reproduce exactamente los cinco perfiles originales.
-- Algunos grupos se solapan y no todos los clientes encajan claramente en un único perfil.
-- La segmentación se ha entrenado con los 6.457 clientes disponibles; no he comprobado su estabilidad con nuevos datos ni con diferentes semillas.
-- No puedo afirmar que los clientes con poca actividad vayan a abandonar la tienda, ni que una campaña concreta vaya a funcionar mejor para un segmento.
-
-Para llevar esta segmentación a un entorno real, el siguiente paso sería comprobar su estabilidad con nuevos datos y estudiar qué información adicional ayudaría a distinguir mejor determinados perfiles.
-
-## Conclusión
-
-En este proyecto he utilizado nueve variables de comportamiento para identificar cuatro segmentos de clientes mediante K-Means. La comparación con los perfiles originales me ha permitido comprobar que el modelo recupera algunos grupos con bastante precisión, aunque también muestra dónde falta información para distinguir mejor ciertos comportamientos.
-
-La parte más interesante ha sido comprobar que una segmentación no tiene por qué reproducir exactamente una clasificación existente para resultar útil. También puede ayudar a descubrir patrones, detectar limitaciones en los datos y plantear nuevas preguntas de negocio.
 
 **Borja Mora Méndez**
 
