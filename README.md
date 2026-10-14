@@ -1,130 +1,75 @@
 # Segmentación de Clientes Retail
 
-**¿Trata tu negocio a todos los clientes como si fueran el mismo, aunque no compren igual?**
+Una aplicación interactiva que explica cómo he utilizado **Machine Learning para identificar cuatro segmentos de clientes** en una cadena de electrónica de consumo. A través de una narrativa visual, exploro sus hábitos de compra, comparo los grupos obtenidos con los perfiles originales del dataset y planteo posibles oportunidades de negocio.
 
-Una aplicación interactiva que cuenta, paso a paso, cómo descubrí 4 grupos de clientes
-en una cadena de electrónica de consumo usando solo su comportamiento de compra, y cuánto se
-parecen al perfil que ya traían asignado los datos, sin haberlo visto nunca durante el entrenamiento.
+No necesitas conocimientos previos de Machine Learning: la aplicación te guía desde el problema de negocio y la preparación de los datos hasta la interpretación de los resultados. También incluye un simulador para crear un cliente hipotético y explorar a qué segmento podría pertenecer.
 
-No hace falta saber nada de Machine Learning para seguirla: empieza por el problema, sigue por
-los datos, y termina dejándote construir un cliente hipotético para ver en qué segmento caería.
+## Ver la aplicación
 
-## Ver la app
+**[Abrir la aplicación interactiva](https://segmentacion-retail.streamlit.app)**
 
-🔗 **[Abrir la app](https://segmentacion-retail.streamlit.app)**
+**Tecnologías:** Python · pandas · scikit-learn · K-Means · t-SNE · Plotly · Streamlit
 
-**Stack:** Python · pandas · scikit-learn (K-Means, t-SNE) · Plotly · Streamlit
+## El análisis
 
-<!-- Captura o GIF de la app: guárdalo en assets/demo.png y descomenta la línea siguiente -->
-<!-- ![Vista de la app](assets/demo.png) -->
+He trabajado con **6.457 clientes y nueve variables de comportamiento**, relacionadas con el gasto, la frecuencia de compra, la recencia y el canal. Con K-Means he identificado cuatro grupos sin utilizar durante el entrenamiento la etiqueta de perfil que ya incluían los datos originales.
 
-## De qué trata, en dos frases
+El objetivo es comprobar hasta qué punto los segmentos descubiertos a partir del comportamiento de compra se parecen a los perfiles existentes, y qué información pueden aportar para comprender mejor a los clientes.
 
-Una cadena de electrónica trata a todos sus clientes igual: las mismas ofertas, el mismo
-descuento genérico. Con **K-Means** (y **t-SNE** para visualizarlos) agrupé a 6.457 clientes en 4 segmentos
-usando solo 9 variables de comportamiento (gasto, frecuencia, canal, recencia), sin usar la
-etiqueta de perfil que ya venía en los datos.
+### Principales resultados
 
-**El resultado:** el grupo premium que encuentra el modelo es muy limpio (el 96,8% de sus clientes
-ya eran perfil 2 en los datos originales), pero reúne solo al 71,3% de los clientes de ese perfil:
-no es una réplica exacta de la segmentación original. (96,8% es la *pureza* del cluster; 71,3% es la
-*cobertura* del perfil.)
+El segmento identificado como premium presenta una **pureza del 96,8 %**: casi todos sus integrantes pertenecían al perfil 2 en los datos originales. Sin embargo, solo reúne al 71,3 % de los clientes de ese perfil.
 
-## Qué podría hacer el negocio con estos segmentos
+Esta diferencia es importante: el modelo identifica un grupo bastante homogéneo, pero no reproduce por completo la clasificación original. Los segmentos obtenidos reflejan patrones de comportamiento, no una verdad definitiva sobre cada cliente.
 
-| Segmento | Hipótesis a probar |
+## ¿Qué oportunidades de negocio sugieren los segmentos?
+
+| Segmento | Posible aplicación |
 |---|---|
-| Baja actividad | Campaña de **reactivación**: llevan más tiempo sin comprar que ningún otro grupo |
-| Premium | Estrategia de **fidelización**: es el grupo de mayor gasto y actividad |
-| Digital (el más numeroso) | **Cross-selling** o subida de ticket medio |
+| Baja actividad | Explorar campañas de reactivación para clientes que llevan más tiempo sin comprar. |
+| Premium | Evaluar acciones de fidelización para clientes con mayor gasto y actividad. |
+| Digital | Investigar oportunidades de venta cruzada o de aumento del ticket medio. |
 
-Son hipótesis de negocio, no conclusiones del modelo: para saber qué acción funciona habría que
-probarla con un experimento y medir su impacto.
+Estas propuestas son hipótesis que habría que validar mediante experimentos y medición de resultados. El análisis, por sí solo, no demuestra que una campaña vaya a funcionar.
 
-## Límites del análisis
+## Qué encontrarás en la aplicación
 
-- No reproduce exactamente la segmentación original y no distingue bien los perfiles 1 y 5 con
-  estas 9 variables.
-- No hay conjunto de prueba y K-Means se entrenó con una sola semilla: falta comprobar la
-  estabilidad de los clusters con datos nuevos.
-- El dataset no incluye una variable de abandono, así que el grupo de baja actividad no permite
-  afirmar que esos clientes se vayan a ir.
+He organizado el recorrido en 12 etapas, siguiendo un enfoque de *data storytelling*:
 
-## Qué te vas a encontrar al recorrerla
+- **El problema de negocio:** por qué tiene sentido estudiar el comportamiento de los clientes.
+- **Los datos:** qué información utilizo y qué limitaciones tiene.
+- **El proceso de modelado:** cómo funciona K-Means y cómo se forman los cuatro grupos.
+- **Los perfiles:** qué características distinguen a cada segmento.
+- **La comparación con los datos originales:** hasta qué punto coinciden ambas clasificaciones.
+- **El simulador interactivo:** cómo se clasificaría un cliente hipotético.
+- **Las oportunidades de negocio:** qué acciones podría explorar el área de marketing.
+- **Las limitaciones y conclusiones:** qué hemos descubierto y qué queda por comprobar.
 
-La app se lee como un reportaje, en 12 tramos: **el problema**, **los datos**, **antes de buscar grupos**,
-**¿cómo dejamos que los datos formen los grupos?**, **K-Means: cuatro grupos**, **los cuatro perfiles**,
-**¿coincide con el perfil original?**, **ponlo a prueba** (playground), **¿qué hemos descubierto?**, **¿qué
-podría hacer marketing con estos perfiles?**, **lo que sabemos y lo que no sabemos** y **del dato a la
-decisión**.
+La visualización con t-SNE facilita la exploración visual de los grupos, mientras que Plotly permite interactuar con los gráficos y examinar los resultados.
 
-## Cómo está hecho
+## Limitaciones del análisis
 
-Python + [Streamlit](https://streamlit.io) para la aplicación, y
-[scikit-learn](https://scikit-learn.org) (`TSNE`, `KMeans`) para el modelo. El análisis
-completo, en formato notebook, está en el
-[repositorio de portfolio](https://github.com/BORJAMOME/Data-Analytics-Portfolio/tree/main/03-Machine-Learning/02-no-supervisado/clustering/kmeans/04-segmentacion-retail-tsne).
+Para interpretar correctamente los resultados, es importante tener en cuenta que:
 
-Calculé todos los números que aparecen en la app una vez en `model/train.py` y los guardé como
-datos: nada está escrito a mano.
+- El modelo no reproduce exactamente los perfiles originales y tiene dificultades para distinguir los perfiles 1 y 5 con las nueve variables utilizadas.
+- K-Means se entrenó con una única semilla y no se ha evaluado con un conjunto de prueba independiente. La estabilidad de los segmentos con datos nuevos queda pendiente de comprobar.
+- El dataset no contiene una variable de abandono. Por tanto, el segmento de baja actividad no permite concluir que sus integrantes vayan a dejar de comprar.
+- Las asociaciones entre segmentos y posibles acciones comerciales no demuestran causalidad ni garantizan resultados.
 
-## Ejecutarla en tu ordenador
+## Cómo está construido
 
-```bash
-python -m venv .venv
-.venv\Scripts\activate        # en macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
-streamlit run app.py
-```
+La aplicación utiliza Python y Streamlit para presentar el análisis de forma interactiva. El modelado se ha realizado con scikit-learn, mediante K-Means para la segmentación y t-SNE para la representación visual de los datos.
 
-Los resultados del modelo ya vienen calculados en `model/artifacts/`, así que no hace falta
-reentrenar nada para verla funcionar.
+Los resultados que muestra la aplicación se calculan previamente mediante `model/train.py` y se guardan para su consulta, evitando tener que entrenar el modelo cada vez que se abre la aplicación.
 
-Solo si cambias el dataset (`data/clientes_mediamarkt.xlsx`) necesitas regenerarlos:
-
-```bash
-python model/train.py    # tarda 1-3 minutos (el paso más lento es ajustar t-SNE)
-```
-
-<details>
-<summary>Estructura del proyecto, para quien quiera curiosear el código</summary>
-
-```
-app.py                    la aplicación — contenido y datos, beat a beat
-components/
-  editorial.py              sistema editorial: un componente por función narrativa (lede, beat, figure…)
-  charts.py                 gráficos, con la paleta de colores del proyecto
-utils/
-  data_loader.py             carga de datos y resultados (con cache de Streamlit)
-  clustering.py               predice el cluster de un cliente hipotético en vivo
-model/
-  train.py                    ajusta t-SNE y K-Means, calcula todos los resultados
-  export_profile_controls.py  medias por perfil original de variables no usadas (sin tocar el modelo)
-  artifacts/                   resultados ya calculados (perfiles, coordenadas t-SNE...)
-data/                      el dataset original
-assets/editorial.css       sistema de composición editorial (rejilla, niveles de ancho, ritmo, tokens) — reutilizable
-assets/style.css           identidad de este proyecto (paleta y familias tipográficas)
-```
-
-Hice que el Playground predijera el cluster de un cliente hipotético sin cargar un modelo de
-sklearn: solo necesita los parámetros del `StandardScaler` y los 4 centroides ya ajustados
-(guardados como JSON) para escalar la entrada y buscar el centroide más cercano, exactamente lo
-que hace `KMeans.predict()` por dentro, sin la sobrecarga de deserializar un pickle.
-</details>
-
----
-
-### Sistema editorial (reutilizable en otros proyectos de ML)
-
-`assets/editorial.css` convierte el contenedor de Streamlit en una rejilla con cinco niveles de ancho
-(`--canvas-width` / `--wide-width` / `--story-width` / `--reading-width` / `--aside-width`), una escala de
-espacio (`--space-xs` … `--space-3xl`) y una escala tipográfica editorial. `components/editorial.py`
-expone un componente por función narrativa. Para reutilizarlo: copiar ambos archivos y definir la paleta
-en el `style.css` del proyecto. Requiere `streamlit==1.58.0` (usa `st.container(key=...)` y el DOM de esa
-versión).
+**[Consultar el análisis completo en el repositorio de GitHub](https://github.com/BORJAMOME/Data-Analytics-Portfolio/tree/main/03-Machine-Learning/02-no-supervisado/clustering/kmeans/04-segmentacion-retail-tsne)**
 
 ## Licencia
 
-El código está bajo licencia [MIT](LICENSE). Los datasets de `data/` pertenecen a sus fuentes originales y no están incluidos en esta licencia.
+El código está disponible bajo la [licencia MIT](LICENSE). Los datasets de `data/` pertenecen a sus fuentes originales y no están cubiertos por esta licencia.
 
-**Autor:** Borja Mora Méndez · [Portfolio](https://borjamora.es/) · [LinkedIn](https://www.linkedin.com/in/borjamoramendez/) · [GitHub](https://github.com/BORJAMOME)
+---
+
+**Autor:** Borja Mora Méndez
+
+[Portfolio](https://borjamora.es/) · [LinkedIn](https://www.linkedin.com/in/borjamoramendez/) · [GitHub](https://github.com/BORJAMOME)
