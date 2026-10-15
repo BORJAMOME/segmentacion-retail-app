@@ -1,5 +1,5 @@
 """
-Segmentación de Clientes Retail — K-Means + t-SNE
+Segmentación de Clientes Retail: K-Means + t-SNE
 Reportaje digital de datos: del problema de negocio a la decisión, pasando por los datos,
 el método, la evidencia y sus límites.
 
@@ -394,7 +394,7 @@ with ed.split("tsne-clusters", "8-4") as (viz, txt):
     with viz:
         st.plotly_chart(
             charts.tsne_scatter(tsne_coords, "KMeans_Profile", CLUSTER_COLORS,
-                                {k: f"Cluster {k} — {v}" for k, v in CLUSTER_NAMES.items()}),
+                                {k: f"Cluster {k}: {v}" for k, v in CLUSTER_NAMES.items()}),
             use_container_width=True, config=PLOT,
         )
         ed.caption("FIG. 06", "Mapa t-SNE coloreado por el cluster de K-Means.", FUENTE)
@@ -550,7 +550,7 @@ with ed.split("playground", "5-7") as (pg_left, pg_right):
 
     with pg_right:
         ed.cards([{
-            "tag": "Este cliente se parece más a", "title": f"Cluster {cluster_id} — {CLUSTER_NAMES[cluster_id]}",
+            "tag": "Este cliente se parece más a", "title": f"Cluster {cluster_id}: {CLUSTER_NAMES[cluster_id]}",
             "color": CLUSTER_COLORS[cluster_id],
             "text": f"El segundo grupo más parecido es el Cluster {runner_up_id} ({CLUSTER_NAMES[runner_up_id]}).",
         }])

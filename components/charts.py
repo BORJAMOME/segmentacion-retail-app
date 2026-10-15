@@ -123,7 +123,7 @@ def cluster_sizes(sizes_df: pd.DataFrame, names: dict) -> go.Figure:
 
 
 def cluster_profile_bars(profile: pd.DataFrame, feature: str, names: dict, labels: dict) -> go.Figure:
-    """Una variable, un valor por cluster — comparación directa."""
+    """Una variable, un valor por cluster: comparación directa."""
     clusters = list(profile.index)
     values = profile[feature].values
     colors = [CLUSTER_COLOR.get(int(c), MUTED) for c in clusters]
@@ -156,7 +156,7 @@ def crosstab_heatmap(ct: pd.DataFrame, names: dict) -> go.Figure:
 
 def playground_radar(user_scaled: dict, centroid_scaled: dict, features: list, labels: dict) -> go.Figure:
     """Compara el perfil escalado del cliente hipotético con el centroide
-    del cluster asignado — un radar es la forma más directa de leer
+    del cluster asignado: un radar es la forma más directa de leer
     "en qué se parece y en qué no" sobre varias variables a la vez."""
     # Etiquetas en varias líneas: una etiqueta larga en un eje lateral del radar se recortaba en móvil
     wrapped = [_wrap(labels.get(f, f), 12) for f in features]
